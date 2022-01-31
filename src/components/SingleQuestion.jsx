@@ -64,7 +64,11 @@ const SingleQuestion = ({ data, setCheckAnswer, checkAnswer }) => {
         <h3 className='question__title'>
           {id}: {question}
         </h3>
-        <img className='question__image' src={image} alt={'question-' + id} />
+        <img
+          className='question__image'
+          src={'src/assets/images/' + image}
+          alt={'question-' + id}
+        />
 
         <ul className='options__list'>
           {options?.map((option, index) => {

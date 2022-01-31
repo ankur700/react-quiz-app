@@ -1,30 +1,13 @@
-export type SingularQuestion = {
-  checkAnswer: boolean;
-  setCheckAnswer: React.Dispatch<React.SetStateAction<boolean>>;
-  data: Quest;
-};
-
-export type Questions = Quest[];
-
-export type Quest = {
-  id: number;
-  question: string;
-  image: string;
-  options: string[];
-  answer: number;
-  explanation: string;
-};
-
 export const Data = [
   {
     id: 1,
-    question: "What’s the output?",
-    image: "./assets/images/question-1.svg",
+    question: 'What’s the output?',
+    image: 'question-1.svg',
     options: [
-      "<code>Lydia</code> and <code>undefined</code>",
-      "<code>Lydia</code> and <code>ReferenceError</code>",
-      "<code>ReferenceError</code> and <code>21</code>",
-      "<code>undefined</code> and <code>ReferenceError</code>",
+      '<code>Lydia</code> and <code>undefined</code>',
+      '<code>Lydia</code> and <code>ReferenceError</code>',
+      '<code>ReferenceError</code> and <code>21</code>',
+      '<code>undefined</code> and <code>ReferenceError</code>',
     ],
     answer: 3,
     explanation: `<p>Within the function, we first declare the <code>name</code> variable with the <code>var</code> keyword. This means that the variable gets hoisted (memory space is set up during the creation phase) with the default value of <code>undefined</code>, until we actually get to the line where we define the variable. We haven’t defined the variable yet on the line where we try to log the <code>name</code> variable, so it still holds the value of <code>undefined</code>.</p>
@@ -32,13 +15,13 @@ export const Data = [
   },
   {
     id: 2,
-    question: "What’s the output?",
-    image: "./assets/images/question-2.svg",
+    question: 'What’s the output?',
+    image: 'question-2.svg',
     options: [
-      "<code>0 1 2</code> and <code>0 1 2</code>",
-      "<code>0 1 2</code> and <code>3 3 3</code>",
-      "<code>3 3 3</code> and <code>0 1 2</code>",
-      "<code>3 3 3</code> and <code>3 3 3</code>",
+      '<code>0 1 2</code> and <code>0 1 2</code>',
+      '<code>0 1 2</code> and <code>3 3 3</code>',
+      '<code>3 3 3</code> and <code>0 1 2</code>',
+      '<code>3 3 3</code> and <code>3 3 3</code>',
     ],
     answer: 2,
     explanation: `<p>Because of the event queue in JavaScript, the <code>setTimeout</code> callback function is called <em>after</em> the loop has been executed. Since the variable <code>i</code> in the first loop was declared using the <code>var</code> keyword, this value was global. During the loop, we incremented the value of <code>i</code> by <code>1</code> each time, using the unary operator <code>++</code>. By the time the <code>setTimeout</code> callback function was invoked, <code>i</code> was equal to <code>3</code> in the first example.</p>.
@@ -46,13 +29,13 @@ export const Data = [
   },
   {
     id: 3,
-    question: "What’s the output?",
-    image: "./assets/images/question-3.svg",
+    question: 'What’s the output?',
+    image: 'question-3.svg',
     options: [
-      "A: <code>20</code> and <code>62.83185307179586</code>",
-      "B: <code>20</code> and <code>NaN</code>",
-      "C: <code>20</code> and <code>63</code>",
-      "D: <code>NaN</code> and <code>63</code>",
+      'A: <code>20</code> and <code>62.83185307179586</code>',
+      'B: <code>20</code> and <code>NaN</code>',
+      'C: <code>20</code> and <code>63</code>',
+      'D: <code>NaN</code> and <code>63</code>',
     ],
     answer: 1,
     explanation: `<p>Note that the value of <code>diameter</code> is a regular function, whereas the value of <code>perimeter</code> is an arrow function.</p>
@@ -61,13 +44,13 @@ export const Data = [
   },
   {
     id: 4,
-    question: "What’s the output?",
-    image: "./assets/images/question-4.svg",
+    question: 'What’s the output?',
+    image: 'question-4.svg',
     options: [
-      "A: <code>1</code> and <code>false</code>",
-      "B: <code>false</code> and <code>NaN</code>",
-      "C: <code>false</code> and <code>false</code>",
-      "D: <code>NaN</code> and <code>NaN</code>",
+      'A: <code>1</code> and <code>false</code>',
+      'B: <code>false</code> and <code>NaN</code>',
+      'C: <code>false</code> and <code>false</code>',
+      'D: <code>NaN</code> and <code>NaN</code>',
     ],
     answer: 0,
     explanation: `<p>The unary plus tries to convert an operand to a number. <code>true</code> is <code>1</code>, and <code>false</code> is <code>0</code>.</p>
@@ -75,13 +58,13 @@ export const Data = [
   },
   {
     id: 5,
-    question: "Which one is true?",
-    image: "./assets/images/question-5.svg",
+    question: 'Which one is true?',
+    image: 'question-5.svg',
     options: [
-      "A: <code>mouse.bird.size</code>",
-      "B: <code>mouse[bird.size]</code> ",
+      'A: <code>mouse.bird.size</code>',
+      'B: <code>mouse[bird.size]</code> ',
       "C: <code>mouse[bird['size']]</code>",
-      "D: All of them are valid",
+      'D: All of them are valid',
     ],
     answer: 0,
     explanation: `<p>In JavaScript, all object keys are strings (unless it’s a Symbol). Even though we might not type them as strings, they are always converted into strings under the hood.</p>
@@ -91,13 +74,13 @@ export const Data = [
   },
   {
     id: 6,
-    question: "What’s the output?",
-    image: "./assets/images/question-6.svg",
+    question: 'What’s the output?',
+    image: 'question-6.svg',
     options: [
-      "A: <code>Hello</code>",
-      "B: <code>Hey!</code> ",
-      "C: <code>undefined</code>",
-      "D: <code>ReferenceError</code>",
+      'A: <code>Hello</code>',
+      'B: <code>Hey!</code> ',
+      'C: <code>undefined</code>',
+      'D: <code>ReferenceError</code>',
     ],
     answer: 0,
     explanation: `<p>In JavaScript, all objects interact by <em>reference</em> when setting them equal to each other.</p>
@@ -107,13 +90,13 @@ export const Data = [
   },
   {
     id: 7,
-    question: "What’s the output?",
-    image: "./assets/images/question-7.svg",
+    question: 'What’s the output?',
+    image: 'question-7.svg',
     options: [
-      "A: <code>true</code> <code>false</code> <code>true</code>",
-      "B: <code>false</code> <code>false</code> <code>true</code>",
-      "C: <code>true</code> <code>false</code> <code>false</code>",
-      "D: <code>false</code> <code>true</code> <code>true</code>",
+      'A: <code>true</code> <code>false</code> <code>true</code>',
+      'B: <code>false</code> <code>false</code> <code>true</code>',
+      'C: <code>true</code> <code>false</code> <code>false</code>',
+      'D: <code>false</code> <code>true</code> <code>true</code>',
     ],
     answer: 2,
     explanation: `<p><code>new Number()</code> is a built-in function constructor. Although it looks like a number, it’s not really a number: it has a bunch of extra features and is an object.</p>
