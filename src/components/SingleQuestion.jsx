@@ -66,7 +66,7 @@ const SingleQuestion = ({ data, setCheckAnswer, checkAnswer }) => {
         </h3>
         <img
           className='question__image'
-          src={'src/assets/images/' + image}
+          src={'/assets/images/' + image}
           alt={'question-' + id}
         />
 
