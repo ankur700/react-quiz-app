@@ -3,7 +3,6 @@ import SingleQuestion from './SingleQuestion';
 import { Data } from '../lib/data';
 import ReactCanvasConfetti from 'react-canvas-confetti';
 
-
 const canvasStyles = {
   position: 'fixed',
   pointerEvents: 'none',
@@ -13,9 +12,7 @@ const canvasStyles = {
   left: 0,
 };
 
-const Questions = [...Data];
-
-const Question = () => {
+const Question = ({ Questions }) => {
   const [checkAnswer, setCheckAnswer] = useState(false);
 
   const refAnimationInstance = useRef(null);
@@ -70,17 +67,23 @@ const Question = () => {
   }, [fire, checkAnswer]);
 
   return (
-    <div className=' question__card clay card'>
-      {Questions.map(quest => {
-        return (
-          <SingleQuestion
-            setCheckAnswer={setCheckAnswer}
-            data={quest}
-            checkAnswer={checkAnswer}
-            key={quest.id}
-          />
-        );
-      })}
+    <div className=' question__card clay'>
+      {Questions.length > 0 ? (
+        Questions.map(quest => {
+          return (
+            <SingleQuestion
+              setCheckAnswer={setCheckAnswer}
+              data={quest}
+              checkAnswer={checkAnswer}
+              key={'0' + quest.id}
+            />
+          );
+        })
+      ) : (
+        <h3 className='no-questions'>
+          No Questions Yet! Please select desired no. of Questions.
+        </h3>
+      )}
       <ReactCanvasConfetti refConfetti={getInstance} style={canvasStyles} />
     </div>
   );

@@ -59,7 +59,7 @@ const SingleQuestion = ({ data, setCheckAnswer, checkAnswer }) => {
             : 'active single__question-wrapper'
         }
         id={'question-' + id.toString()}
-        key={id}
+        key={'00' + id}
       >
         <h3 className='question__title'>
           {id}: {question}
