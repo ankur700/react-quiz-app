@@ -4,10 +4,10 @@ export const Data = [
     question: 'What’s the output?',
     image: 'question-1.svg',
     options: [
-      '<code>Lydia</code> and <code>undefined</code>',
-      '<code>Lydia</code> and <code>ReferenceError</code>',
-      '<code>ReferenceError</code> and <code>21</code>',
-      '<code>undefined</code> and <code>ReferenceError</code>',
+      'A: <code>Lydia</code> and <code>undefined</code>',
+      'B: <code>Lydia</code> and <code>ReferenceError</code>',
+      'C: <code>ReferenceError</code> and <code>21</code>',
+      'D: <code>undefined</code> and <code>ReferenceError</code>',
     ],
     answer: 3,
     explanation: `<p>Within the function, we first declare the <code>name</code> variable with the <code>var</code> keyword. This means that the variable gets hoisted (memory space is set up during the creation phase) with the default value of <code>undefined</code>, until we actually get to the line where we define the variable. We haven’t defined the variable yet on the line where we try to log the <code>name</code> variable, so it still holds the value of <code>undefined</code>.</p>
@@ -18,10 +18,10 @@ export const Data = [
     question: 'What’s the output?',
     image: 'question-2.svg',
     options: [
-      '<code>0 1 2</code> and <code>0 1 2</code>',
-      '<code>0 1 2</code> and <code>3 3 3</code>',
-      '<code>3 3 3</code> and <code>0 1 2</code>',
-      '<code>3 3 3</code> and <code>3 3 3</code>',
+      'A: <code>0 1 2</code> and <code>0 1 2</code>',
+      'B: <code>0 1 2</code> and <code>3 3 3</code>',
+      'C: <code>3 3 3</code> and <code>0 1 2</code>',
+      'D: <code>3 3 3</code> and <code>3 3 3</code>',
     ],
     answer: 2,
     explanation: `<p>Because of the event queue in JavaScript, the <code>setTimeout</code> callback function is called <em>after</em> the loop has been executed. Since the variable <code>i</code> in the first loop was declared using the <code>var</code> keyword, this value was global. During the loop, we incremented the value of <code>i</code> by <code>1</code> each time, using the unary operator <code>++</code>. By the time the <code>setTimeout</code> callback function was invoked, <code>i</code> was equal to <code>3</code> in the first example.</p>.
@@ -108,10 +108,10 @@ export const Data = [
     question: 'What’s the output?',
     image: 'question-1.svg',
     options: [
-      '<code>Lydia</code> and <code>undefined</code>',
-      '<code>Lydia</code> and <code>ReferenceError</code>',
-      '<code>ReferenceError</code> and <code>21</code>',
-      '<code>undefined</code> and <code>ReferenceError</code>',
+      'A: <code>Lydia</code> and <code>undefined</code>',
+      'B: <code>Lydia</code> and <code>ReferenceError</code>',
+      'C: <code>ReferenceError</code> and <code>21</code>',
+      'D: <code>undefined</code> and <code>ReferenceError</code>',
     ],
     answer: 3,
     explanation: `<p>Within the function, we first declare the <code>name</code> variable with the <code>var</code> keyword. This means that the variable gets hoisted (memory space is set up during the creation phase) with the default value of <code>undefined</code>, until we actually get to the line where we define the variable. We haven’t defined the variable yet on the line where we try to log the <code>name</code> variable, so it still holds the value of <code>undefined</code>.</p>
@@ -122,10 +122,10 @@ export const Data = [
     question: 'What’s the output?',
     image: 'question-2.svg',
     options: [
-      '<code>0 1 2</code> and <code>0 1 2</code>',
-      '<code>0 1 2</code> and <code>3 3 3</code>',
-      '<code>3 3 3</code> and <code>0 1 2</code>',
-      '<code>3 3 3</code> and <code>3 3 3</code>',
+      'A: <code>0 1 2</code> and <code>0 1 2</code>',
+      'B: <code>0 1 2</code> and <code>3 3 3</code>',
+      'C: <code>3 3 3</code> and <code>0 1 2</code>',
+      'D: <code>3 3 3</code> and <code>3 3 3</code>',
     ],
     answer: 2,
     explanation: `<p>Because of the event queue in JavaScript, the <code>setTimeout</code> callback function is called <em>after</em> the loop has been executed. Since the variable <code>i</code> in the first loop was declared using the <code>var</code> keyword, this value was global. During the loop, we incremented the value of <code>i</code> by <code>1</code> each time, using the unary operator <code>++</code>. By the time the <code>setTimeout</code> callback function was invoked, <code>i</code> was equal to <code>3</code> in the first example.</p>.
@@ -212,10 +212,10 @@ export const Data = [
     question: 'What’s the output?',
     image: 'question-1.svg',
     options: [
-      '<code>Lydia</code> and <code>undefined</code>',
-      '<code>Lydia</code> and <code>ReferenceError</code>',
-      '<code>ReferenceError</code> and <code>21</code>',
-      '<code>undefined</code> and <code>ReferenceError</code>',
+      'A: <code>Lydia</code> and <code>undefined</code>',
+      'B: <code>Lydia</code> and <code>ReferenceError</code>',
+      'C: <code>ReferenceError</code> and <code>21</code>',
+      'D: <code>undefined</code> and <code>ReferenceError</code>',
     ],
     answer: 3,
     explanation: `<p>Within the function, we first declare the <code>name</code> variable with the <code>var</code> keyword. This means that the variable gets hoisted (memory space is set up during the creation phase) with the default value of <code>undefined</code>, until we actually get to the line where we define the variable. We haven’t defined the variable yet on the line where we try to log the <code>name</code> variable, so it still holds the value of <code>undefined</code>.</p>
@@ -226,10 +226,10 @@ export const Data = [
     question: 'What’s the output?',
     image: 'question-2.svg',
     options: [
-      '<code>0 1 2</code> and <code>0 1 2</code>',
-      '<code>0 1 2</code> and <code>3 3 3</code>',
-      '<code>3 3 3</code> and <code>0 1 2</code>',
-      '<code>3 3 3</code> and <code>3 3 3</code>',
+      'A: <code>0 1 2</code> and <code>0 1 2</code>',
+      'B: <code>0 1 2</code> and <code>3 3 3</code>',
+      'C: <code>3 3 3</code> and <code>0 1 2</code>',
+      'D: <code>3 3 3</code> and <code>3 3 3</code>',
     ],
     answer: 2,
     explanation: `<p>Because of the event queue in JavaScript, the <code>setTimeout</code> callback function is called <em>after</em> the loop has been executed. Since the variable <code>i</code> in the first loop was declared using the <code>var</code> keyword, this value was global. During the loop, we incremented the value of <code>i</code> by <code>1</code> each time, using the unary operator <code>++</code>. By the time the <code>setTimeout</code> callback function was invoked, <code>i</code> was equal to <code>3</code> in the first example.</p>.
@@ -316,10 +316,10 @@ export const Data = [
     question: 'What’s the output?',
     image: 'question-1.svg',
     options: [
-      '<code>Lydia</code> and <code>undefined</code>',
-      '<code>Lydia</code> and <code>ReferenceError</code>',
-      '<code>ReferenceError</code> and <code>21</code>',
-      '<code>undefined</code> and <code>ReferenceError</code>',
+      'A: <code>Lydia</code> and <code>undefined</code>',
+      'B: <code>Lydia</code> and <code>ReferenceError</code>',
+      'C: <code>ReferenceError</code> and <code>21</code>',
+      'D: <code>undefined</code> and <code>ReferenceError</code>',
     ],
     answer: 3,
     explanation: `<p>Within the function, we first declare the <code>name</code> variable with the <code>var</code> keyword. This means that the variable gets hoisted (memory space is set up during the creation phase) with the default value of <code>undefined</code>, until we actually get to the line where we define the variable. We haven’t defined the variable yet on the line where we try to log the <code>name</code> variable, so it still holds the value of <code>undefined</code>.</p>
@@ -330,10 +330,10 @@ export const Data = [
     question: 'What’s the output?',
     image: 'question-2.svg',
     options: [
-      '<code>0 1 2</code> and <code>0 1 2</code>',
-      '<code>0 1 2</code> and <code>3 3 3</code>',
-      '<code>3 3 3</code> and <code>0 1 2</code>',
-      '<code>3 3 3</code> and <code>3 3 3</code>',
+      'A: <code>0 1 2</code> and <code>0 1 2</code>',
+      'B: <code>0 1 2</code> and <code>3 3 3</code>',
+      'C: <code>3 3 3</code> and <code>0 1 2</code>',
+      'D: <code>3 3 3</code> and <code>3 3 3</code>',
     ],
     answer: 2,
     explanation: `<p>Because of the event queue in JavaScript, the <code>setTimeout</code> callback function is called <em>after</em> the loop has been executed. Since the variable <code>i</code> in the first loop was declared using the <code>var</code> keyword, this value was global. During the loop, we incremented the value of <code>i</code> by <code>1</code> each time, using the unary operator <code>++</code>. By the time the <code>setTimeout</code> callback function was invoked, <code>i</code> was equal to <code>3</code> in the first example.</p>.

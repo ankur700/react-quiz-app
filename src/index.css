@@ -5,6 +5,8 @@
 /*==================== VARIABLES CSS ====================*/
 :root {
   --header-height: 6.85rem;
+  --grid-column: span 2;
+  --grid-template-column: 1fr;
 
   /*========== Colors ==========*/
   /* Change favorite color */
@@ -32,28 +34,20 @@
   --body-font: 'Poppins', sans-serif;
 
   /* .5rem = 8px, 1rem = 16px, 1.5rem = 24px ... */
-  --big-font-size: 2rem;
-  --h1-font-size: 1.5rem;
-  --h2-font-size: 1.25rem;
-  --h3-font-size: 1.125rem;
+  --big-font-size: 1rem;
+  --h1-font-size: 0.75rem;
+  --h2-font-size: 0.5rem;
+  --h3-font-size: 0.25rem;
   --normal-font-size: 0.938rem;
   --small-font-size: 0.813rem;
   --smaller-font-size: 0.75rem;
+  --padding-big: 2rem;
+  --padding-medium: 1.25rem;
+  --padding-small: 0.75rem;
 
   /*========== Font weight ==========*/
   --font-medium: 500;
   --font-semi-bold: 600;
-
-  /*========== Margin Bottom ==========*/
-  /* .25rem = 4px, .5rem = 8px, .75rem = 12px ... */
-  --mb-0-25: 0.25rem;
-  --mb-0-5: 0.5rem;
-  --mb-0-75: 0.75rem;
-  --mb-1: 1rem;
-  --mb-1-5: 1.5rem;
-  --mb-2: 2rem;
-  --mb-2-5: 2.5rem;
-  --mb-3: 3rem;
 
   /*========== z index ==========*/
   --z-tooltip: 10;
@@ -71,6 +65,11 @@
     --normal-font-size: 1rem;
     --small-font-size: 0.875rem;
     --smaller-font-size: 0.813rem;
+    --grid-template-column: 1fr minmax(400px, 500px);
+    --grid-column: span 1;
+    --padding-big: 4rem;
+    --padding-medium: 2.5rem;
+    --padding-small: 1rem;
   }
 }
 
@@ -136,17 +135,11 @@ code {
 }
 
 .clay {
-  background: hsla(var(--clay-background));
   backdrop-filter: blur(15px);
   border-radius: 30px;
   background: hsla(var(--clay-background));
   box-shadow: var(--clay-boxShadow);
   position: relative;
-}
-
-.App {
-  padding-inline: 4rem;
-  padding-block-end: 3.5rem;
 }
 
 .App-logo {
@@ -155,13 +148,11 @@ code {
 
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+    animation: App-logo-spin infinite 20s cubic-bezier(0.47, 3.06, 0.73, 1);
   }
 }
 
 .App-header {
-  color: white;
-  max-height: var(--header-height);
   grid-column: span 2;
 }
 
@@ -180,16 +171,18 @@ code {
 
 .App {
   display: grid;
-  grid-template-columns: 1fr 400px;
-  grid-template-rows: 6.85rem minmax(min-content, 1fr);
-  gap: 2.5rem;
+  grid-template-columns: var(--grid-template-column);
+  row-gap: var(--padding-medium);
   background-color: var(--body-color);
+  padding-inline: var(--padding-big);
+  padding-bottom: 3rem;
+  min-height: 100vh;
 }
 
 .main-nav {
   display: flex;
   flex-grow: 1;
-  padding: 1rem 2rem;
+  padding: var(--padding-small) var(--padding-big);
   justify-content: space-evenly;
   align-items: center;
   margin-top: 0.85rem;
@@ -209,10 +202,9 @@ code {
 }
 
 .question__card {
-  padding: 1rem 2rem;
-  grid-column: span 1;
+  padding: var(--padding-small) var(--padding-big);
+  grid-column: var(--grid-column);
   width: 100%;
-  min-height: 80vh;
   position: relative;
   display: flex;
   justify-content: center;
@@ -235,11 +227,18 @@ code {
 }
 
 .question__image {
-  width: 90%;
-  height: 200px;
-  object-fit: scale-down;
+  object-fit: cover;
   object-position: center;
   border-radius: 20px;
+}
+
+.question__card-footer {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding-inline: 2rem;
+  position: relative;
+  width: 100%;
 }
 
 .pagination__holder {
@@ -249,19 +248,18 @@ code {
 }
 
 .pagination__button {
-  padding: 1rem 2rem;
+  padding: var(--padding-small) var(--padding-big);
   border-radius: 10px;
   color: var(--title-color);
   border: none;
   cursor: pointer;
+  font-size: var(--normal-font-size);
+  font-weight: var(--font-semi-bold);
 }
 
-.pagination__button:hover {
+.pagination__button:hover,
+.pagination__button:active {
   outline: none;
-  /* background: hsla(100, 100%, 100%, 0.4);
-  box-shadow: 0 30px 30px 0 rgba(136, 174, 222, 0.42),
-    inset 0 4px 4px 0 rgba(136, 174, 222, 0.42); */
-  /* background-color: var(--first-color-alt); */
 }
 
 .sidebar__wrapper {
@@ -290,8 +288,8 @@ code {
 }
 
 .sidebar__icon {
-  width: 2rem;
-  height: 2rem;
+  width: 3rem;
+  height: 3rem;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -317,7 +315,7 @@ code {
   border-radius: 50%;
   color: var(--title-color);
   font-weight: bold;
-  font-size: 1rem;
+  font-size: var(--normal-font-size);
   display: flex;
   width: 50px;
   aspect-ratio: 1;
@@ -349,7 +347,6 @@ select {
   background: transparent;
   color: var(--title-color);
   width: 90%;
-  font-size: var(--h3-font-size);
 }
 
 select:focus-visible {
@@ -376,21 +373,19 @@ select > option {
 }
 
 .options__list {
-  padding: 1rem 2rem;
+  padding: var(--padding-small) var(--padding-big);
   display: flex;
-  justify-content: space-evenly;
   flex-wrap: wrap;
-  gap: 1.5rem;
+  justify-content: space-evenly;
+  gap: var(--padding-medium);
   list-style: none;
-  width: 100%;
 }
 
 .option {
-  padding-block: 1rem;
-  padding-inline-start: 1rem;
-  padding-inline-end: 2rem;
+  padding-block: var(--padding-small);
+  padding-inline: 1rem;
   border-radius: 10px;
-  width: 45%;
+  min-width: 20rem;
   color: var(--title-color);
 }
 
@@ -415,42 +410,22 @@ select > option {
   display: flex;
   flex-grow: 1;
   padding: 1rem 2rem;
-  /* position: absolute; */
   bottom: 0;
   left: 0;
   width: 75%;
 }
 
-.answer > details {
-  padding: 1rem 2rem;
-  background-color: var(--body-color);
-  z-index: 10;
-  color: var(--title-color);
-}
-
-.answer > details img {
-  width: 100%;
-  object-fit: scale-down;
-  object-position: center;
-}
-
-.answer .answer__title {
-  margin-block-start: 1rem;
-  margin-block-end: 0.5rem;
-}
-
-.answer > summary::before {
-  unicode-bidi: isolate;
-  font-variant-numeric: tabular-nums;
-  text-transform: none;
-  text-indent: 0px !important;
-  text-align: start !important;
-  text-align-last: start !important;
-}
-
 .answer__detail {
-  line-height: 1.5;
-  word-spacing: 1.5px;
+  line-height: 2;
+  word-spacing: 2px;
+  padding: var(--padding-medium);
+  position: absolute;
+  width: 100%;
+  color: var(--title-color);
+  background-color: var(--body-color);
+}
+.answer__detail > h3 {
+  color: var(--title-color);
 }
 
 .answer__detail > p {
@@ -514,4 +489,29 @@ select > option {
 
 .toggle-state:checked ~ .indicator {
   transform: translate3d(25%, 0, 0);
+}
+
+.score-card h3,
+.no-questions {
+  font-size: 2.5rem;
+}
+
+@media screen and (min-width: 968px) {
+  .App {
+    column-gap: 2.5rem;
+    row-gap: var(--padding-medium);
+    min-height: 100vh;
+  }
+
+  select {
+    font-size: var(--h3-font-size);
+  }
+  .answer__detail {
+    width: 50%;
+    min-height: 15rem;
+  }
+
+  .score-card h3 {
+    font-size: var(--big-font-size);
+  }
 }

@@ -1,6 +1,5 @@
 import React, { useState, useCallback, useRef, useEffect } from 'react';
 import SingleQuestion from './SingleQuestion';
-import { Data } from '../lib/data';
 import ReactCanvasConfetti from 'react-canvas-confetti';
 
 const canvasStyles = {
@@ -12,8 +11,19 @@ const canvasStyles = {
   left: 0,
 };
 
-const Question = ({ Questions }) => {
-  const [checkAnswer, setCheckAnswer] = useState(false);
+const Question = ({
+  Questions,
+  score,
+  setScore,
+  showScore,
+  setShowScore,
+  state,
+  setState,
+}) => {
+  const [isCorrect, setIsCorrect] = useState(false);
+
+  const firstItem = Questions[0];
+  const lastItem = Questions[Questions.length - 1];
 
   const refAnimationInstance = useRef(null);
 
@@ -60,30 +70,46 @@ const Question = ({ Questions }) => {
   }, [makeShot]);
 
   useEffect(() => {
-    if (!checkAnswer) return;
-    if (checkAnswer) {
+    if (!isCorrect) return;
+    if (isCorrect) {
       fire();
     }
-  }, [fire, checkAnswer]);
+  }, [fire, isCorrect]);
 
   return (
     <div className=' question__card clay'>
-      {Questions.length > 0 ? (
-        Questions.map(quest => {
-          return (
-            <SingleQuestion
-              setCheckAnswer={setCheckAnswer}
-              data={quest}
-              checkAnswer={checkAnswer}
-              key={'0' + quest.id}
-            />
-          );
-        })
-      ) : (
+      {Questions.length === 0 && (
         <h3 className='no-questions'>
           No Questions Yet! Please select desired no. of Questions.
         </h3>
       )}
+      {showScore && (
+        <div className='score-card' id='score'>
+          <h3>
+            You scored {score} out of {lastItem.id}
+          </h3>
+        </div>
+      )}
+
+      {Questions.length > 0 &&
+        Questions.map(quest => {
+          return (
+            <SingleQuestion
+              setIsCorrect={setIsCorrect}
+              isCorrect={isCorrect}
+              data={quest}
+              key={'0' + quest.id}
+              score={score}
+              setScore={setScore}
+              lastItem={lastItem}
+              firstItem={firstItem}
+              setShowScore={setShowScore}
+              isCorrect={isCorrect}
+              state={state}
+              setState={setState}
+            />
+          );
+        })}
       <ReactCanvasConfetti refConfetti={getInstance} style={canvasStyles} />
     </div>
   );

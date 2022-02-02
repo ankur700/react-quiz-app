@@ -1,17 +1,33 @@
 import React from 'react';
-import { FiInfo } from 'react-icons/fi';
 
-const handleClick = id => {
-  let question = document.querySelector('.active');
-  if (question) {
-    question.classList.toggle('active');
-    question.classList.toggle('hidden');
+const Sidebar = ({
+  questionCount,
+  setQuestions,
+  Questions,
+  setShowScore,
+  state,
+}) => {
+  const handleClick = id => {
+    let question = document.querySelector('.active');
+    setShowScore(false);
+    if (question) {
+      question.classList.toggle('active');
+      question.classList.toggle('hidden');
+    }
+    document.getElementById(`question-${id}`)?.classList.toggle('hidden');
+    document.getElementById(`question-${id}`)?.classList.toggle('active');
+  };
+
+  if (state.length > 0) {
+    state.map(item => {
+      if (item.attempted) {
+        let btn = document.getElementById('question' + `${item.id}`);
+        console.log(item, btn);
+        btn.style.background = item.isCorrect === true ? '#027802' : '#e44b4b';
+      }
+    });
   }
-  document.getElementById(`question-${id}`)?.classList.toggle('hidden');
-  document.getElementById(`question-${id}`)?.classList.toggle('active');
-};
 
-const Sidebar = ({ questionCount, setQuestions, Questions }) => {
   return (
     <div className='sidebar__wrapper clay card'>
       <div className='sidebar__header'>
@@ -26,11 +42,7 @@ const Sidebar = ({ questionCount, setQuestions, Questions }) => {
             <option value='10'>10</option>
             <option value='15'>15</option>
             <option value='25'>25</option>
-            <option value='50'>50</option>
           </select>
-        </div>
-        <div className=' sidebar__icon clay'>
-          <FiInfo />
         </div>
       </div>
       <div className='sidebar__content clay'>
@@ -41,6 +53,7 @@ const Sidebar = ({ questionCount, setQuestions, Questions }) => {
                 key={question.id}
                 className='clay sidebar__pagination-button'
                 onClick={() => handleClick(question.id)}
+                id={`question` + question.id}
               >
                 {question.id}
               </button>

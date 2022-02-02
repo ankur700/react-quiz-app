@@ -1,15 +1,58 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { FaQuestion } from 'react-icons/fa';
 
-const SingleQuestion = ({ data, setCheckAnswer, checkAnswer }) => {
+const SingleQuestion = ({
+  data,
+  setIsCorrect,
+  score,
+  setScore,
+  lastItem,
+  firstItem,
+  setShowScore,
+  state,
+  setState,
+  isCorrect,
+}) => {
+  const { id, question, image, options, answer, explanation } = data;
+
+  const [showAnswer, setShowAnswer] = useState(false);
+
+  const [attempted, setAttempted] = useState(false);
+
   const handleClick = (e, index) => {
     e.preventDefault();
-    resetOptions();
     let target = e.currentTarget;
-    if (index === answer) {
-      setCheckAnswer(true);
+    resetOptions();
+
+    if (!attempted) {
+      setAttempted(true);
+      if (index === answer) {
+        setIsCorrect(true);
+        setState([
+          ...state,
+          {
+            id: id,
+            attempted: true,
+            isCorrect: true,
+          },
+        ]);
+        target.classList.add('success');
+        setScore(score + 1);
+      } else {
+        setIsCorrect(false);
+        setState([
+          ...state,
+          {
+            id: id,
+            attempted: true,
+            isCorrect: false,
+          },
+        ]);
+        target.classList.add('error');
+      }
+    } else if (attempted && index === answer) {
       target.classList.add('success');
     } else {
-      setCheckAnswer(false);
       target.classList.add('error');
     }
   };
@@ -26,11 +69,9 @@ const SingleQuestion = ({ data, setCheckAnswer, checkAnswer }) => {
   };
 
   const reset = () => {
-    setCheckAnswer(false);
+    setIsCorrect(false);
     resetOptions();
   };
-
-  const { id, question, image, options, answer, explanation } = data;
 
   const handleNext = (e, id) => {
     e.preventDefault();
@@ -38,6 +79,9 @@ const SingleQuestion = ({ data, setCheckAnswer, checkAnswer }) => {
     document.getElementById(`question-${id}`)?.classList.toggle('active');
     document.getElementById(`question-${id + 1}`)?.classList.toggle('hidden');
     document.getElementById(`question-${id + 1}`)?.classList.toggle('active');
+    if (id === lastItem.id) {
+      setShowScore(true);
+    }
     reset();
   };
 
@@ -54,12 +98,11 @@ const SingleQuestion = ({ data, setCheckAnswer, checkAnswer }) => {
     <>
       <div
         className={
-          id !== 1
+          id !== firstItem.id
             ? 'hidden single__question-wrapper'
             : 'active single__question-wrapper'
         }
         id={'question-' + id.toString()}
-        key={'00' + id}
       >
         <h3 className='question__title'>
           {id}: {question}
@@ -85,32 +128,25 @@ const SingleQuestion = ({ data, setCheckAnswer, checkAnswer }) => {
             );
           })}
         </ul>
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'flex-end',
-            alignItems: 'center',
-            paddingInline: '2rem',
-            position: 'relative',
-            width: '100%',
-          }}
-        >
+        <div className='question__card-footer'>
           <div key={answer} className='answer'>
-            <details className='clay'>
-              <summary>
-                <strong>Answer</strong>
-              </summary>
-              <h3 className='answer__title'>Answer: option {answer + 1}</h3>
-              <div
-                className='answer__detail'
-                dangerouslySetInnerHTML={{ __html: explanation }}
-              ></div>
-            </details>
+            <button
+              className=' sidebar__icon clay'
+              title='Check Answer'
+              aria-label='answer'
+              onClick={e => {
+                e.preventDefault();
+                setShowAnswer(!showAnswer);
+              }}
+              disabled={attempted ? false : true}
+            >
+              <FaQuestion fill={attempted ? '#fff' : '#000'} />
+            </button>
           </div>
           <div className='pagination__holder'>
             <button
               className={
-                id !== 1
+                id !== firstItem.id
                   ? 'clay pagination__button'
                   : 'clay pagination__button hidden'
               }
@@ -126,6 +162,10 @@ const SingleQuestion = ({ data, setCheckAnswer, checkAnswer }) => {
               Next
             </button>
           </div>
+        </div>
+        <div className={showAnswer ? 'answer__detail clay' : 'hidden'}>
+          <h3 className=''>Answer: option {answer + 1}</h3>
+          <div dangerouslySetInnerHTML={{ __html: explanation }}></div>
         </div>
       </div>
     </>

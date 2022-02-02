@@ -11,7 +11,11 @@ const Layout = () => {
     'theme',
     defaultDark ? 'dark' : 'light'
   );
+
   const [questionCount, setQuestionCount] = useState('0');
+  const [score, setScore] = useState(0);
+  const [showScore, setShowScore] = useState(false);
+  const [state, setState] = useState([]);
   const switchTheme = theme => {
     const newTheme = theme === 'light' ? 'dark' : 'light';
     setTheme(newTheme);
@@ -21,16 +25,25 @@ const Layout = () => {
   };
 
   const Questions = Data.slice(0, parseInt(questionCount));
-  console.log(Questions, questionCount);
 
   return (
     <div className='App' data-theme={theme}>
       <Header theme={theme} switchTheme={switchTheme} />
-      <Question Questions={Questions} />
+      <Question
+        Questions={Questions}
+        score={score}
+        setScore={setScore}
+        showScore={showScore}
+        setShowScore={setShowScore}
+        state={state}
+        setState={setState}
+      />
       <Sidebar
         Questions={Questions}
         questionCount={questionCount}
         setQuestions={setQuestions}
+        setShowScore={setShowScore}
+        state={state}
       />
     </div>
   );
