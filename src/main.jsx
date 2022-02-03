@@ -5,7 +5,7 @@ import Layout from './components/Layout';
 
 import { makeServer } from './server';
 
-if (process.env.NODE_ENV === 'development') {
+if (import.meta.env.VITE_NODE_ENV === 'development') {
   makeServer({ environment: 'development' });
 }
 

@@ -1,7 +1,9 @@
 import { createServer, Model } from 'miragejs';
 import { Data } from './lib/data';
 
-export function makeServer({ environment = 'development' } = {}) {
+export function makeServer({
+  environment = import.meta.process.env.VITE_NODE_ENV,
+} = {}) {
   let server = createServer({
     environment,
 
@@ -24,10 +26,12 @@ export function makeServer({ environment = 'development' } = {}) {
     },
 
     routes() {
-      this.namespace = 'api';
-      // this.get('/users', schema => {
-      //   return schema.users.all();
-      // });
+      this.namespace = '/api';
+      this.timing = 2000;
+
+      this.get('/users', schema => {
+        return schema.users.all();
+      });
 
       this.get('/questions', schema => {
         return schema.questions.all();
