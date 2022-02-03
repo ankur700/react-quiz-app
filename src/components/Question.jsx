@@ -92,21 +92,18 @@ const Question = ({
       )}
 
       {Questions.length > 0 &&
-        Questions.map(quest => {
+        Questions.map((quest, index) => {
           return (
             <SingleQuestion
               setIsCorrect={setIsCorrect}
-              isCorrect={isCorrect}
               data={quest}
-              key={'0' + quest.id}
+              key={quest.id}
               score={score}
               setScore={setScore}
-              lastItem={lastItem}
-              firstItem={firstItem}
               setShowScore={setShowScore}
-              isCorrect={isCorrect}
               state={state}
               setState={setState}
+              Index={index + 1}
             />
           );
         })}

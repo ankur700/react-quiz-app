@@ -2,7 +2,7 @@ import React from 'react';
 
 const Sidebar = ({
   questionCount,
-  setQuestions,
+  setQuestionsArray,
   Questions,
   setShowScore,
   state,
@@ -40,7 +40,7 @@ const Sidebar = ({
           <select
             name='noofquestions'
             id='noofquestions'
-            onChange={e => setQuestions(e.target.value)}
+            onChange={e => setQuestionsArray(e.target.value)}
             defaultValue={questionCount}
           >
             <option value='0'>Select no of questions</option>
@@ -52,15 +52,15 @@ const Sidebar = ({
       </div>
       <div className='sidebar__content clay'>
         {Questions.length ? (
-          Questions.map(question => {
+          Questions.map((question, index) => {
             return (
               <button
                 key={question.id}
                 className='clay sidebar__pagination-button'
-                onClick={() => handleClick(question.id)}
+                onClick={() => handleClick(index + 1)}
                 id={`question` + question.id}
               >
-                {question.id}
+                {index + 1}
               </button>
             );
           })

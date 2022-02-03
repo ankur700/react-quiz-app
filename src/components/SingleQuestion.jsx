@@ -6,12 +6,10 @@ const SingleQuestion = ({
   setIsCorrect,
   score,
   setScore,
-  lastItem,
-  firstItem,
   setShowScore,
   state,
   setState,
-  isCorrect,
+  Index,
 }) => {
   const { id, question, image, options, answer, explanation } = data;
 
@@ -85,11 +83,13 @@ const SingleQuestion = ({
 
   const handleNext = (e, id) => {
     e.preventDefault();
-    document.getElementById(`question-${id}`)?.classList.toggle('hidden');
-    document.getElementById(`question-${id}`)?.classList.toggle('active');
-    document.getElementById(`question-${id + 1}`)?.classList.toggle('hidden');
-    document.getElementById(`question-${id + 1}`)?.classList.toggle('active');
-    if (id === lastItem.id) {
+    let currentElem = document.getElementById(`question-${id}`);
+    let nextElem = document.getElementById(`question-${id + 1}`);
+    currentElem?.classList.toggle('hidden');
+    currentElem?.classList.toggle('active');
+    nextElem?.classList.toggle('hidden');
+    nextElem?.classList.toggle('active');
+    if (!nextElem) {
       setShowScore(true);
     }
     reset();
@@ -97,10 +97,12 @@ const SingleQuestion = ({
 
   const handlePrev = (e, id) => {
     e.preventDefault();
-    document.getElementById(`question-${id}`)?.classList.toggle('hidden');
-    document.getElementById(`question-${id}`)?.classList.toggle('active');
-    document.getElementById(`question-${id - 1}`)?.classList.toggle('hidden');
-    document.getElementById(`question-${id - 1}`)?.classList.toggle('active');
+    let currentElem = document.getElementById(`question-${id}`);
+    let prevElem = document.getElementById(`question-${id - 1}`);
+    currentElem?.classList.toggle('hidden');
+    currentElem?.classList.toggle('active');
+    prevElem?.classList.toggle('hidden');
+    prevElem?.classList.toggle('active');
     reset();
   };
 
@@ -108,15 +110,14 @@ const SingleQuestion = ({
     <>
       <div
         className={
-          id !== firstItem.id
+          Index !== 1
             ? 'hidden single__question-wrapper'
             : 'active single__question-wrapper'
         }
-        id={'question-' + id.toString()}
+        id={'question-' + Index}
+        key={id}
       >
-        <h3 className='question__title'>
-          {id}: {question}
-        </h3>
+        <h3 className='question__title'>{question}</h3>
         <img
           className='question__image'
           src={'/assets/images/' + image}
@@ -156,18 +157,18 @@ const SingleQuestion = ({
           <div className='pagination__holder'>
             <button
               className={
-                id !== firstItem.id
+                Index !== 1
                   ? 'clay pagination__button'
                   : 'clay pagination__button hidden'
               }
-              onClick={e => handlePrev(e, id)}
+              onClick={e => handlePrev(e, Index)}
             >
               Prev
             </button>
 
             <button
               className='clay pagination__button'
-              onClick={e => handleNext(e, id)}
+              onClick={e => handleNext(e, Index)}
             >
               Next
             </button>
