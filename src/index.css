@@ -29,6 +29,8 @@
   --clay-background: hsla(100, 100%, 100%, 0.4);
   --clay-boxShadow: 0 20px 20px 0 rgba(136, 174, 222, 0.5),
     inset 0 2px 4px 0 rgba(136, 174, 222, 0.8);
+  --red: #f87171;
+  --green: #4ade80;
 
   /*========== Font and typography ==========*/
   --body-font: 'Poppins', sans-serif;
@@ -87,6 +89,8 @@
   --clay-background: hsla(var(--body-color), 0.4);
   --clay-boxShadow: 0 8px 20px 0 rgba(0, 0, 0, 0.35),
     inset 0 8px 10px 0 rgba(0, 0, 0, 0.25);
+  --red: #ef4444;
+  --green: #22c55e;
 }
 
 /*==================== BASE ====================*/
@@ -369,7 +373,7 @@ select > option {
 }
 
 .question__title {
-  font-size: 2rem;
+  font-size: var(--h1);
 }
 
 .options__list {
@@ -399,11 +403,11 @@ select > option {
   display: none !important;
 }
 .options__list > .success {
-  background-color: #027802;
+  background-color: var(--green);
 }
 
 .options__list > .error {
-  background-color: #e44b4b;
+  background-color: var(--red);
 }
 
 .answer {
@@ -513,5 +517,18 @@ select > option {
 
   .score-card h3 {
     font-size: var(--big-font-size);
+  }
+}
+@media screen and (max-width: 500px) {
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-size: var(--normal-font-size);
+    font-weight: var(--font-bold);
+  }
+
+  body {
+    font-size: var(--smaller-font-size);
   }
 }

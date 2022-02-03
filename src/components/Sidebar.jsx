@@ -21,9 +21,14 @@ const Sidebar = ({
   if (state.length > 0) {
     state.map(item => {
       if (item.attempted) {
+        const green = getComputedStyle(
+          document.documentElement
+        ).getPropertyValue('--green');
+        const red = getComputedStyle(document.documentElement).getPropertyValue(
+          '--red'
+        );
         let btn = document.getElementById('question' + `${item.id}`);
-        console.log(item, btn);
-        btn.style.background = item.isCorrect === true ? '#027802' : '#e44b4b';
+        btn.style.background = item.isCorrect === true ? green : red;
       }
     });
   }

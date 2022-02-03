@@ -19,6 +19,14 @@ const SingleQuestion = ({
 
   const [attempted, setAttempted] = useState(false);
 
+  const playSound = index => {
+    const successAudio = new Audio(
+      '/assets/sounds/mixkit-achievement-bell-600.wav'
+    );
+    const failAudio = new Audio('/assets/sounds/Incorrect-sound-effect.mp3');
+    index === answer ? successAudio.play() : failAudio.play();
+  };
+
   const handleClick = (e, index) => {
     e.preventDefault();
     let target = e.currentTarget;
@@ -26,6 +34,8 @@ const SingleQuestion = ({
 
     if (!attempted) {
       setAttempted(true);
+      playSound(index);
+
       if (index === answer) {
         setIsCorrect(true);
         setState([
