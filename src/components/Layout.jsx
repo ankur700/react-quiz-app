@@ -54,9 +54,9 @@ const Layout = () => {
     fetch('/api/questions')
       .then(response => response.json())
       .then(json => setFetchedQuestions(json.questions));
-    fetch('/api/users')
-      .then(response => response.json())
-      .then(json => setUsers(json.users));
+    // fetch('/api/users')
+    //   .then(response => response.json())
+    //   .then(json => setUsers(json.users));
   }, []);
 
   useEffect(() => {
