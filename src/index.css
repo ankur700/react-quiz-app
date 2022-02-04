@@ -381,7 +381,7 @@ select > option {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-evenly;
-  gap: var(--padding-medium);
+  gap: var(--padding-small);
   list-style: none;
 }
 
@@ -389,8 +389,10 @@ select > option {
   padding-block: var(--padding-small);
   padding-inline: 1rem;
   border-radius: 10px;
-  min-width: 15rem;
+  inline-size: 20rem;
+  overflow-wrap: break-word;
   color: var(--title-color);
+  margin: auto 0;
 }
 
 .option:hover {
@@ -443,7 +445,7 @@ select > option {
   font-size: 85%;
   tab-size: 2;
   color: #eb5757;
-  margin-right: 0.5rem;
+  margin-inline: 0.5rem;
 }
 
 .option.error code,

@@ -58,7 +58,7 @@ const SingleQuestion = ({
         ]);
         target.classList.add('error');
       }
-    } else if (attempted && index+1 === answer) {
+    } else if (attempted && index + 1 === answer) {
       target.classList.add('success');
     } else {
       target.classList.add('error');
@@ -81,24 +81,25 @@ const SingleQuestion = ({
     resetOptions();
   };
 
-  const handleNext = (e, id) => {
+  const handleNext = e => {
     e.preventDefault();
-    let currentElem = document.getElementById(`question-${id}`);
-    let nextElem = document.getElementById(`question-${id + 1}`);
+    let currentElem = document.getElementById(`question-${Index}`);
+    let nextElem = document.getElementById(`question-${Index + 1}`);
     currentElem?.classList.toggle('hidden');
     currentElem?.classList.toggle('active');
     nextElem?.classList.toggle('hidden');
     nextElem?.classList.toggle('active');
-    if (!nextElem) {
+    console.log(nextElem);
+    if (nextElem === null) {
       setShowScore(true);
     }
     reset();
   };
 
-  const handlePrev = (e, id) => {
+  const handlePrev = e => {
     e.preventDefault();
-    let currentElem = document.getElementById(`question-${id}`);
-    let prevElem = document.getElementById(`question-${id - 1}`);
+    let currentElem = document.getElementById(`question-${Index}`);
+    let prevElem = document.getElementById(`question-${Index - 1}`);
     currentElem?.classList.toggle('hidden');
     currentElem?.classList.toggle('active');
     prevElem?.classList.toggle('hidden');
@@ -153,7 +154,7 @@ const SingleQuestion = ({
               }}
               disabled={attempted ? false : true}
             >
-              <FaQuestion fill={attempted ? '#fff' : '#000'} />
+              <FaQuestion fill={attempted ? '#fff' : '#ddd'} />
             </button>
           </div>
           <div className='pagination__holder'>
@@ -163,14 +164,14 @@ const SingleQuestion = ({
                   ? 'clay pagination__button'
                   : 'clay pagination__button hidden'
               }
-              onClick={e => handlePrev(e, Index)}
+              onClick={e => handlePrev(e)}
             >
               Prev
             </button>
 
             <button
               className='clay pagination__button'
-              onClick={e => handleNext(e, Index)}
+              onClick={e => handleNext(e)}
             >
               Next
             </button>

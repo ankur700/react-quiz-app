@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 const Sidebar = ({
   questionCount,
@@ -7,6 +7,8 @@ const Sidebar = ({
   setShowScore,
   state,
 }) => {
+  const [showSelectOption, setShowSelectOption] = useState(true);
+
   const handleClick = id => {
     let question = document.querySelector('.active');
     setShowScore(false);
@@ -14,8 +16,9 @@ const Sidebar = ({
       question.classList.toggle('active');
       question.classList.toggle('hidden');
     }
-    document.getElementById(`question-${id}`)?.classList.toggle('hidden');
-    document.getElementById(`question-${id}`)?.classList.toggle('active');
+    let elem = document.getElementById(`question-${id}`);
+    elem?.classList.toggle('hidden');
+    elem?.classList.toggle('active');
   };
 
   if (state.length > 0) {
@@ -33,6 +36,12 @@ const Sidebar = ({
     });
   }
 
+  const handleChange = event => {
+    event.preventDefault();
+    setQuestionsArray(event.target.value);
+    setShowSelectOption(false);
+  };
+
   return (
     <div className='sidebar__wrapper clay card'>
       <div className='sidebar__header'>
@@ -40,8 +49,9 @@ const Sidebar = ({
           <select
             name='noofquestions'
             id='noofquestions'
-            onChange={e => setQuestionsArray(e.target.value)}
+            onChange={e => handleChange(e)}
             defaultValue={questionCount}
+            disabled={showSelectOption ? false : true}
           >
             <option value='0'>Select no of questions</option>
             <option value='10'>10</option>

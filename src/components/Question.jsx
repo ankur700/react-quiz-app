@@ -22,9 +22,6 @@ const Question = ({
 }) => {
   const [isCorrect, setIsCorrect] = useState(false);
 
-  const firstItem = Questions[0];
-  const lastItem = Questions[Questions.length - 1];
-
   const refAnimationInstance = useRef(null);
 
   const getInstance = useCallback(instance => {
@@ -86,7 +83,7 @@ const Question = ({
       {showScore && (
         <div className='score-card' id='score'>
           <h3>
-            You scored {score} out of {lastItem.id}
+            You scored {score} out of {Questions.length}
           </h3>
         </div>
       )}
