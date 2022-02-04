@@ -47,7 +47,7 @@ const Layout = () => {
         array[currentIndex],
       ];
     }
-    setQuestions([...array]);
+    return array;
   }
 
   useEffect(() => {
@@ -60,8 +60,8 @@ const Layout = () => {
   }, []);
 
   useEffect(() => {
-    let questions = fetchedQuestions.slice(0, parseInt(questionCount));
-    shuffle(questions);
+    let questions = shuffle(fetchedQuestions).slice(0, parseInt(questionCount));
+    setQuestions(shuffle(questions));
   }, [questionCount]);
 
   return (

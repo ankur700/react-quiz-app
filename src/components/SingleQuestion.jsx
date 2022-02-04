@@ -22,7 +22,7 @@ const SingleQuestion = ({
       '/assets/sounds/mixkit-achievement-bell-600.wav'
     );
     const failAudio = new Audio('/assets/sounds/Incorrect-sound-effect.mp3');
-    index === answer ? successAudio.play() : failAudio.play();
+    index + 1 === answer ? successAudio.play() : failAudio.play();
   };
 
   const handleClick = (e, index) => {
@@ -34,7 +34,7 @@ const SingleQuestion = ({
       setAttempted(true);
       playSound(index);
 
-      if (index === answer) {
+      if (index + 1 === answer) {
         setIsCorrect(true);
         setState([
           ...state,
@@ -58,7 +58,7 @@ const SingleQuestion = ({
         ]);
         target.classList.add('error');
       }
-    } else if (attempted && index === answer) {
+    } else if (attempted && index+1 === answer) {
       target.classList.add('success');
     } else {
       target.classList.add('error');
@@ -118,11 +118,13 @@ const SingleQuestion = ({
         key={id}
       >
         <h3 className='question__title'>{question}</h3>
-        <img
-          className='question__image'
-          src={'/assets/images/' + image}
-          alt={'question-' + id}
-        />
+        {image !== '' && (
+          <img
+            className='question__image'
+            src={'/assets/images/' + image}
+            alt={'question-' + id}
+          />
+        )}
 
         <ul className='options__list'>
           {options?.map((option, index) => {
@@ -175,7 +177,7 @@ const SingleQuestion = ({
           </div>
         </div>
         <div className={showAnswer ? 'answer__detail clay' : 'hidden'}>
-          <h3 className=''>Answer: option {answer + 1}</h3>
+          <h3 className=''>Answer: option {answer}</h3>
           <div dangerouslySetInnerHTML={{ __html: explanation }}></div>
         </div>
       </div>

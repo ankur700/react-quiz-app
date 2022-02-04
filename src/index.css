@@ -389,7 +389,7 @@ select > option {
   padding-block: var(--padding-small);
   padding-inline: 1rem;
   border-radius: 10px;
-  min-width: 20rem;
+  min-width: 15rem;
   color: var(--title-color);
 }
 
@@ -443,6 +443,7 @@ select > option {
   font-size: 85%;
   tab-size: 2;
   color: #eb5757;
+  margin-right: 0.5rem;
 }
 
 .option.error code,
