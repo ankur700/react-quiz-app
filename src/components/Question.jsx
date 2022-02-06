@@ -1,111 +1,188 @@
-import React, { useState, useCallback, useRef, useEffect } from 'react';
-import SingleQuestion from './SingleQuestion';
-import ReactCanvasConfetti from 'react-canvas-confetti';
-
-const canvasStyles = {
-  position: 'fixed',
-  pointerEvents: 'none',
-  width: '100%',
-  height: '100%',
-  top: 0,
-  left: 0,
-};
+import React, { useState } from 'react';
+import { FaQuestion } from 'react-icons/fa';
 
 const Question = ({
-  Questions,
+  data,
+  setIsCorrect,
   score,
   setScore,
-  showScore,
   setShowScore,
   state,
   setState,
+  Index,
 }) => {
-  const [isCorrect, setIsCorrect] = useState(false);
+  const { id, question, image, options, answer, explanation } = data;
 
-  const refAnimationInstance = useRef(null);
+  const [showAnswer, setShowAnswer] = useState(false);
 
-  const getInstance = useCallback(instance => {
-    refAnimationInstance.current = instance;
-  }, []);
+  const [attempted, setAttempted] = useState(false);
 
-  const makeShot = useCallback((particleRatio, opts) => {
-    refAnimationInstance.current &&
-      refAnimationInstance.current({
-        ...opts,
-        origin: { y: 0.7 },
-        particleCount: Math.floor(200 * particleRatio),
-      });
-  }, []);
+  const playSound = index => {
+    const successAudio = new Audio(
+      '/assets/sounds/mixkit-achievement-bell-600.wav'
+    );
+    const failAudio = new Audio('/assets/sounds/Incorrect-sound-effect.mp3');
+    index + 1 === answer ? successAudio.play() : failAudio.play();
+  };
 
-  const fire = useCallback(() => {
-    makeShot(0.25, {
-      spread: 26,
-      startVelocity: 55,
-    });
+  const handleClick = (e, index) => {
+    e.preventDefault();
+    let target = e.currentTarget;
+    resetOptions();
 
-    makeShot(0.2, {
-      spread: 60,
-    });
+    if (!attempted) {
+      setAttempted(true);
+      playSound(index);
 
-    makeShot(0.35, {
-      spread: 100,
-      decay: 0.91,
-      scalar: 0.8,
-    });
-
-    makeShot(0.1, {
-      spread: 120,
-      startVelocity: 25,
-      decay: 0.92,
-      scalar: 1.2,
-    });
-
-    makeShot(0.1, {
-      spread: 120,
-      startVelocity: 45,
-    });
-  }, [makeShot]);
-
-  useEffect(() => {
-    if (!isCorrect) return;
-    if (isCorrect) {
-      fire();
+      if (index + 1 === answer) {
+        setIsCorrect(true);
+        setState([
+          ...state,
+          {
+            id: id,
+            attempted: true,
+            isCorrect: true,
+          },
+        ]);
+        target.classList.add('success');
+        setScore(score + 1);
+      } else {
+        setIsCorrect(false);
+        setState([
+          ...state,
+          {
+            id: id,
+            attempted: true,
+            isCorrect: false,
+          },
+        ]);
+        target.classList.add('error');
+      }
+    } else if (attempted && index + 1 === answer) {
+      target.classList.add('success');
+    } else {
+      target.classList.add('error');
     }
-  }, [fire, isCorrect]);
+  };
+
+  const resetOptions = () => {
+    let options = Array.from(document.getElementsByClassName('option'));
+    options.forEach(option => {
+      if (option.classList.contains('success')) {
+        option.classList.remove('success');
+      } else if (option.classList.contains('error')) {
+        option.classList.remove('error');
+      }
+    });
+  };
+
+  const reset = () => {
+    setIsCorrect(false);
+    resetOptions();
+  };
+
+  const handleNext = e => {
+    e.preventDefault();
+    let currentElem = document.getElementById(`question-${Index}`);
+    let nextElem = document.getElementById(`question-${Index + 1}`);
+    currentElem?.classList.toggle('hidden');
+    currentElem?.classList.toggle('active');
+    nextElem?.classList.toggle('hidden');
+    nextElem?.classList.toggle('active');
+    // console.log(nextElem);
+    if (nextElem === null) {
+      setShowScore(true);
+    }
+    reset();
+  };
+
+  const handlePrev = e => {
+    e.preventDefault();
+    let currentElem = document.getElementById(`question-${Index}`);
+    let prevElem = document.getElementById(`question-${Index - 1}`);
+    currentElem?.classList.toggle('hidden');
+    currentElem?.classList.toggle('active');
+    prevElem?.classList.toggle('hidden');
+    prevElem?.classList.toggle('active');
+    reset();
+  };
 
   return (
-    <div className=' question__card clay'>
-      {Questions.length === 0 && (
-        <h3 className='no-questions'>
-          No Questions Yet! Please select desired no. of Questions.
-        </h3>
-      )}
-      {showScore && (
-        <div className='score-card' id='score'>
-          <h3>
-            You scored {score} out of {Questions.length}
-          </h3>
-        </div>
-      )}
+    <>
+      <div
+        className={
+          Index !== 1
+            ? 'hidden single__question-wrapper'
+            : 'active single__question-wrapper'
+        }
+        id={'question-' + Index}
+        key={id}
+      >
+        <h3 className='question__title'>{question}</h3>
+        {image !== '' && (
+          <img
+            className='question__image'
+            src={'/assets/images/' + image}
+            alt={'question-' + id}
+          />
+        )}
 
-      {Questions.length > 0 &&
-        Questions.map((quest, index) => {
-          return (
-            <SingleQuestion
-              setIsCorrect={setIsCorrect}
-              data={quest}
-              key={quest.id}
-              score={score}
-              setScore={setScore}
-              setShowScore={setShowScore}
-              state={state}
-              setState={setState}
-              Index={index + 1}
-            />
-          );
-        })}
-      <ReactCanvasConfetti refConfetti={getInstance} style={canvasStyles} />
-    </div>
+        <ul className='options__list'>
+          {options?.map((option, index) => {
+            return (
+              <>
+                <li
+                  key={answer}
+                  id={index.toString()}
+                  className='option clay'
+                  onClick={e => handleClick(e, index)}
+                  dangerouslySetInnerHTML={{ __html: option }}
+                ></li>
+              </>
+            );
+          })}
+        </ul>
+        <div className='question__card-footer'>
+          <div key={answer} className='answer'>
+            <button
+              className=' sidebar__icon clay'
+              title='Check Answer'
+              aria-label='answer'
+              onClick={e => {
+                e.preventDefault();
+                setShowAnswer(!showAnswer);
+              }}
+              disabled={attempted ? false : true}
+            >
+              <FaQuestion fill={attempted ? '#fff' : '#ddd'} />
+            </button>
+          </div>
+          <div className='pagination__holder'>
+            <button
+              className={
+                Index !== 1
+                  ? 'clay pagination__button'
+                  : 'clay pagination__button hidden'
+              }
+              onClick={e => handlePrev(e)}
+            >
+              Prev
+            </button>
+
+            <button
+              className='clay pagination__button'
+              onClick={e => handleNext(e)}
+            >
+              Next
+            </button>
+          </div>
+        </div>
+        <div className={showAnswer ? 'answer__detail clay' : 'hidden'}>
+          <h3 className=''>Answer: option {answer}</h3>
+          <div dangerouslySetInnerHTML={{ __html: explanation }}></div>
+        </div>
+      </div>
+    </>
   );
 };
 

@@ -36,6 +36,12 @@ export function makeServer({
       this.get('/questions', schema => {
         return schema.questions.all();
       });
+
+      this.get('/questions/:id', (schema, request) => {
+        let id = request.params.id;
+
+        return schema.questions.find(id);
+      });
     },
   });
 
