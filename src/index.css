@@ -7,10 +7,11 @@
   --header-height: 6.85rem;
   --grid-column: span 2;
   --grid-template-column: 1fr;
+  --grid-template-row: max-content 1fr;
 
   /*========== Colors ==========*/
   /* Change favorite color */
-  --hue-color: 230; /*Purple 250 - Green 142 - Blue 230 - Pink 340*/
+  --hue-color: 340; /*Purple 250 - Green 142 - Blue 230 - Pink 340*/
 
   /* HSL color mode */
   --first-color: hsl(var(--hue-color), 69%, 61%);
@@ -21,14 +22,14 @@
   --text-color: hsl(var(--hue-color), 8%, 45%);
   --text-color-light: hsl(var(--hue-color), 8%, 65%);
   --input-color: hsl(var(--hue-color), 70%, 96%);
-  --body-color: hsl(214, 100%, 82%);
+  --body-color: hsl(var(--hue-color), 100%, 82%);
   --scroll-bar-color: hsl(var(--hue-color), 12%, 90%);
   --scroll-thumb-color: hsl(var(--hue-color), 12%, 80%);
-  --white: hsl(100, 100%, 100%);
+  --white: 100, 100%, 100%;
 
-  --clay-background: rgba(255, 255, 255, 0.4);
-  --clay-boxShadow: 0 20px 20px 0 rgba(136, 174, 222, 0.5),
-    inset 0 2px 4px 0 rgba(0, 0, 0, 0.3);
+  --clay-background: hsla(var(--white), 0.4);
+  --clay-boxShadow: 0 20px 20px 0 hsla(var(--hue-color), 69%, 61%, 0.5),
+    inset 0 2px 4px 0 hsla(var(--hue-color), 30%, 53%, 0.3);
   --red: #f87171;
   --green: #4ade80;
 
@@ -67,7 +68,7 @@
     --normal-font-size: 1rem;
     --small-font-size: 0.875rem;
     --smaller-font-size: 0.813rem;
-    --grid-template-column: 1fr minmax(400px, 500px);
+    --grid-template-column: 1fr minmax(0, max-content);
     --grid-column: span 1;
     --padding-big: 4rem;
     --padding-medium: 2.5rem;
@@ -86,9 +87,10 @@
   --scroll-bar-color: hsl(var(--hue-color), 12%, 48%);
   --scroll-thumb-color: hsl(var(--hue-color), 12%, 36%);
   --container-color: hsl(var(--hue-color), 29%, 16%);
-  --clay-background: rgba(0, 0, 0, 0.05);
-  --clay-boxShadow: 0 8px 20px 0 rgba(5, 4, 4, 0.35),
-    inset 0 8px 10px 0 rgba(0, 0, 0, 0.25);
+  --black: 0, 0%, 0%;
+  --clay-background: hsla(var(--black), 0.05);
+  --clay-boxShadow: 0 8px 20px 0 hsla(var(--black), 0.35),
+    inset 0 8px 10px 0 hsla(var(--black), 0.25);
   --red: #ef4444;
   --green: #22c55e;
 }
@@ -176,6 +178,7 @@ code {
 .App {
   display: grid;
   grid-template-columns: var(--grid-template-column);
+  grid-template-rows: var(--grid-template-row);
   row-gap: var(--padding-medium);
   background-color: var(--body-color);
   padding-inline: var(--padding-big);

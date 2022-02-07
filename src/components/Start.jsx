@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useEffect } from 'react/cjs/react.development';
 
 const Start = ({
   children,
@@ -8,8 +9,12 @@ const Start = ({
   setGameStarted,
   setShowStart,
 }) => {
-  const [name, setName] = useState(user.userName);
+  const [name, setName] = useState('');
   const [show, setShow] = useState(false);
+
+  useEffect(() => {
+    setName(user.username);
+  }, []);
 
   const handleSelect = event => {
     event.preventDefault();

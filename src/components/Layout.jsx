@@ -30,16 +30,17 @@ const Layout = () => {
   };
 
   const [Questions, setQuestions] = useState([]);
+  const [question, setQuestion] = useState(null);
   const [fetchedQuestions, setFetchedQuestions] = useState([]);
   const [questionCount, setQuestionCount] = useState('0');
   const [score, setScore] = useState(0);
   const [showScore, setShowScore] = useState(false);
   const [state, setState] = useState([]);
   const [isCorrect, setIsCorrect] = useState(false);
-  const [arrayOfId, setArrayOfId] = useState([]);
   const [showStart, setShowStart] = useState(true);
   const [user, setUser] = useLocalStorage('user', { ...defaultUserSate });
   const [gameStarted, setGameStarted] = useState(false);
+  const [idArray, setIdArray] = useState([]);
 
   //Switch the Theme
   const switchTheme = theme => {
@@ -70,32 +71,42 @@ const Layout = () => {
     return array;
   }
 
-  const getArrayOfId = () => {
-    const array = [...Questions];
-    const listOfIds = [];
+  const fetchSingleQuestion = id => {
+    fetch(`/api/questions/${id}`)
+      .then(response => response.json())
+      .then(json => setQuestion({ ...json.question }));
+  };
+
+  const getIdArray = array => {
+    let newArray = [];
+
     array.forEach(item => {
-      listOfIds.push(item.id);
+      newArray.push(item.id);
     });
-    setArrayOfId([...listOfIds]);
+    setIdArray([...newArray]);
   };
 
   useEffect(() => {
-    fetch('/api/questions')
-      .then(response => response.json())
-      .then(json => setFetchedQuestions(json.questions));
-    // fetch('/api/questions/5')
-    //   .then(response => response.json())
-    //   .then(json => console.log(json));
-  }, []);
+    if (questionCount !== '0') {
+      fetch('/api/questions')
+        .then(response => response.json())
+        .then(json =>
+          setQuestions(
+            Array.from(shuffle(json.questions)).slice(
+              0,
+              parseInt(questionCount)
+            )
+          )
+        );
+    }
+  }, [questionCount]);
 
   useEffect(() => {
-    let questions = Array.from(shuffle(fetchedQuestions)).slice(
-      0,
-      parseInt(questionCount)
-    );
-    setQuestions(shuffle(questions));
-    getArrayOfId();
-  }, [gameStarted]);
+    if (Questions.length > 0) {
+      fetchSingleQuestion(Questions[0].id);
+      getIdArray(Questions);
+    }
+  }, [Questions]);
 
   const refAnimationInstance = useRef(null);
 
@@ -108,7 +119,7 @@ const Layout = () => {
       refAnimationInstance.current({
         ...opts,
         origin: { y: 0.7 },
-        particleCount: Math.floor(200 * particleRatio),
+        particleCount: Math.floor(400 * particleRatio),
       });
   }, []);
 
@@ -168,25 +179,24 @@ const Layout = () => {
             </h3>
           </ScoredCard>
         )}
-        {Questions.length > 0 &&
-          Questions.map((quest, index) => {
-            return (
-              <Question
-                setIsCorrect={setIsCorrect}
-                data={quest}
-                key={quest.id}
-                score={score}
-                setScore={setScore}
-                setShowScore={setShowScore}
-                state={state}
-                setState={setState}
-                Index={index + 1}
-              />
-            );
-          })}
+        {question !== null && (
+          <Question
+            setIsCorrect={setIsCorrect}
+            data={question}
+            key={question.id}
+            score={score}
+            setScore={setScore}
+            setShowScore={setShowScore}
+            state={state}
+            setState={setState}
+            fetchSingleQuestion={fetchSingleQuestion}
+            idArray={idArray}
+          />
+        )}
+
         <ReactCanvasConfetti refConfetti={getInstance} style={canvasStyles} />
       </Main>
-      {questionCount !== '0' && (
+      {gameStarted && (
         <Sidebar
           Questions={Questions}
           questionCount={questionCount}

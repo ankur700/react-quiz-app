@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { FaQuestion } from 'react-icons/fa';
 
 const Question = ({
@@ -9,7 +9,8 @@ const Question = ({
   setShowScore,
   state,
   setState,
-  Index,
+  fetchSingleQuestion,
+  idArray,
 }) => {
   const { id, question, image, options, answer, explanation } = data;
 
@@ -25,11 +26,14 @@ const Question = ({
     index + 1 === answer ? successAudio.play() : failAudio.play();
   };
 
+  const selectedRef = useRef(null);
+
   const handleClick = (e, index) => {
     e.preventDefault();
     let target = e.currentTarget;
     resetOptions();
-
+    let QuestionState = state.filter(item => item.id === id)[0];
+    console.log(QuestionState);
     if (!attempted) {
       setAttempted(true);
       playSound(index);
@@ -81,43 +85,25 @@ const Question = ({
     resetOptions();
   };
 
-  const handleNext = e => {
+  const handleNext = (e, id) => {
     e.preventDefault();
-    let currentElem = document.getElementById(`question-${Index}`);
-    let nextElem = document.getElementById(`question-${Index + 1}`);
-    currentElem?.classList.toggle('hidden');
-    currentElem?.classList.toggle('active');
-    nextElem?.classList.toggle('hidden');
-    nextElem?.classList.toggle('active');
-    // console.log(nextElem);
-    if (nextElem === null) {
-      setShowScore(true);
-    }
+    let index = idArray.indexOf(id);
+    let newId = idArray[index + 1];
+    fetchSingleQuestion(`${parseInt(newId)}`);
     reset();
   };
 
-  const handlePrev = e => {
+  const handlePrev = (e, id) => {
     e.preventDefault();
-    let currentElem = document.getElementById(`question-${Index}`);
-    let prevElem = document.getElementById(`question-${Index - 1}`);
-    currentElem?.classList.toggle('hidden');
-    currentElem?.classList.toggle('active');
-    prevElem?.classList.toggle('hidden');
-    prevElem?.classList.toggle('active');
+    let index = idArray.indexOf(id);
+    let newId = idArray[index - 1];
+    fetchSingleQuestion(`${parseInt(newId)}`);
     reset();
   };
 
   return (
     <>
-      <div
-        className={
-          Index !== 1
-            ? 'hidden single__question-wrapper'
-            : 'active single__question-wrapper'
-        }
-        id={'question-' + Index}
-        key={id}
-      >
+      <div className='single__question-wrapper' key={id}>
         <h3 className='question__title'>{question}</h3>
         {image !== '' && (
           <img
@@ -137,6 +123,7 @@ const Question = ({
                   className='option clay'
                   onClick={e => handleClick(e, index)}
                   dangerouslySetInnerHTML={{ __html: option }}
+                  ref={selectedRef}
                 ></li>
               </>
             );
@@ -160,18 +147,18 @@ const Question = ({
           <div className='pagination__holder'>
             <button
               className={
-                Index !== 1
+                id !== idArray[0]
                   ? 'clay pagination__button'
                   : 'clay pagination__button hidden'
               }
-              onClick={e => handlePrev(e)}
+              onClick={e => handlePrev(e, id)}
             >
               Prev
             </button>
 
             <button
               className='clay pagination__button'
-              onClick={e => handleNext(e)}
+              onClick={e => handleNext(e, id)}
             >
               Next
             </button>
