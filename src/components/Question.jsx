@@ -17,6 +17,9 @@ const Question = ({
   const [showAnswer, setShowAnswer] = useState(false);
 
   const [attempted, setAttempted] = useState(false);
+  const [QuestionState, setQuestionState] = useState(
+    state.length > 0 ? [...state] : null
+  );
 
   const playSound = index => {
     const successAudio = new Audio(
@@ -32,11 +35,12 @@ const Question = ({
     e.preventDefault();
     let target = e.currentTarget;
     resetOptions();
-    let QuestionState = state.filter(item => item.id === id)[0];
-    console.log(QuestionState);
+
+    let x = QuestionState.includes(data);
+    console.log(x);
+
     if (!attempted) {
       setAttempted(true);
-      playSound(index);
 
       if (index + 1 === answer) {
         setIsCorrect(true);
@@ -62,6 +66,7 @@ const Question = ({
         ]);
         target.classList.add('error');
       }
+      playSound(index);
     } else if (attempted && index + 1 === answer) {
       target.classList.add('success');
     } else {
