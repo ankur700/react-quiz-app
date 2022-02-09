@@ -11,7 +11,7 @@
 
   /*========== Colors ==========*/
   /* Change favorite color */
-  --hue-color: 340; /*Purple 250 - Green 142 - Blue 230 - Pink 340*/
+  --hue-color: 230; /*Purple 250 - Green 142 - Blue 230 - Pink 340*/
 
   /* HSL color mode */
   --first-color: hsl(var(--hue-color), 69%, 61%);
@@ -341,12 +341,19 @@ code {
   margin-block: 1.5rem;
 }
 
-.sidebar__icon {
+.answer__icon {
   width: 3rem;
   height: 3rem;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+.answer__icon svg {
+  fill: var(--first-color-alt);
+}
+
+.answer__icon:disabled svg {
+  fill: var(--first-color-lighter);
 }
 
 .sidebar__icon > svg {

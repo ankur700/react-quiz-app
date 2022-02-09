@@ -1,25 +1,24 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { FaQuestion } from 'react-icons/fa';
 
 const Question = ({
   data,
   setIsCorrect,
   score,
-  setScore,
   setShowScore,
-  state,
-  setState,
+  setScore,
+  questionState,
   fetchSingleQuestion,
   idArray,
+  setShowQuestion,
+  setUser,
+  user,
 }) => {
   const { id, question, image, options, answer, explanation } = data;
 
   const [showAnswer, setShowAnswer] = useState(false);
 
-  const [attempted, setAttempted] = useState(false);
-  const [QuestionState, setQuestionState] = useState(
-    state.length > 0 ? [...state] : null
-  );
+  let questionIndex = questionState.findIndex(item => item.id === id);
 
   const playSound = index => {
     const successAudio = new Audio(
@@ -31,43 +30,43 @@ const Question = ({
 
   const selectedRef = useRef(null);
 
+  const setQuestionStates = index => {
+    questionState[questionIndex].attempted = true;
+    questionState[questionIndex].isCorrect =
+      index + 1 === answer ? true : false;
+  };
+
   const handleClick = (e, index) => {
     e.preventDefault();
     let target = e.currentTarget;
     resetOptions();
 
-    let x = QuestionState.includes(data);
-    console.log(x);
-
-    if (!attempted) {
-      setAttempted(true);
+    if (questionState[questionIndex].attempted === false) {
+      setQuestionStates(index);
+      playSound(index);
+      if (questionIndex === questionState.length - 1) {
+        setTimeout(() => {
+          setShowQuestion(false);
+          setShowScore(true);
+          setUser('user', {
+            username: user.username,
+            data: [...questionState],
+          });
+        }, 3000);
+      }
 
       if (index + 1 === answer) {
         setIsCorrect(true);
-        setState([
-          ...state,
-          {
-            id: id,
-            attempted: true,
-            isCorrect: true,
-          },
-        ]);
         target.classList.add('success');
         setScore(score + 1);
       } else {
         setIsCorrect(false);
-        setState([
-          ...state,
-          {
-            id: id,
-            attempted: true,
-            isCorrect: false,
-          },
-        ]);
         target.classList.add('error');
       }
-      playSound(index);
-    } else if (attempted && index + 1 === answer) {
+    } else if (
+      questionState[questionIndex].attempted === true &&
+      index + 1 === answer
+    ) {
       target.classList.add('success');
     } else {
       target.classList.add('error');
@@ -94,7 +93,10 @@ const Question = ({
     e.preventDefault();
     let index = idArray.indexOf(id);
     let newId = idArray[index + 1];
-    fetchSingleQuestion(`${parseInt(newId)}`);
+
+    if (newId) {
+      fetchSingleQuestion(`${parseInt(newId)}`);
+    }
     reset();
   };
 
@@ -137,16 +139,16 @@ const Question = ({
         <div className='question__card-footer'>
           <div key={answer} className='answer'>
             <button
-              className=' sidebar__icon clay'
+              className=' answer__icon clay'
               title='Check Answer'
               aria-label='answer'
               onClick={e => {
                 e.preventDefault();
                 setShowAnswer(!showAnswer);
               }}
-              disabled={attempted ? false : true}
+              disabled={questionState[questionIndex].attempted ? false : true}
             >
-              <FaQuestion fill={attempted ? '#fff' : '#ddd'} />
+              <FaQuestion />
             </button>
           </div>
           <div className='pagination__holder'>
@@ -162,7 +164,11 @@ const Question = ({
             </button>
 
             <button
-              className='clay pagination__button'
+              className={
+                id !== idArray[idArray.length - 1]
+                  ? 'clay pagination__button'
+                  : 'clay pagination__button hidden'
+              }
               onClick={e => handleNext(e, id)}
             >
               Next

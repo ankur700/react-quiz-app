@@ -31,15 +31,15 @@ const Layout = () => {
 
   const [Questions, setQuestions] = useState([]);
   const [question, setQuestion] = useState(null);
-  const [fetchedQuestions, setFetchedQuestions] = useState([]);
-  const [questionCount, setQuestionCount] = useState('0');
+  const [questionCount, setQuestionCount] = useState(0);
   const [score, setScore] = useState(0);
   const [showScore, setShowScore] = useState(false);
-  const [state, setState] = useState([]);
+  const [questionState, setQuestionState] = useState([]);
   const [isCorrect, setIsCorrect] = useState(false);
   const [showStart, setShowStart] = useState(true);
-  const [user, setUser] = useLocalStorage('user', { ...defaultUserSate });
   const [gameStarted, setGameStarted] = useState(false);
+  const [showQuestion, setShowQuestion] = useState(false);
+  const [user, setUser] = useLocalStorage('user', { ...defaultUserSate });
   const [idArray, setIdArray] = useState([]);
 
   //Switch the Theme
@@ -79,23 +79,23 @@ const Layout = () => {
 
   const getIdArray = array => {
     let newArray = [];
+    let stateArray = [];
 
     array.forEach(item => {
       newArray.push(item.id);
+      stateArray.push({ id: item.id, attempted: false, isCorrect: false });
     });
     setIdArray([...newArray]);
+    setQuestionState([...stateArray]);
   };
 
   useEffect(() => {
-    if (questionCount !== '0') {
+    if (questionCount > 0) {
       fetch('/api/questions')
         .then(response => response.json())
         .then(json =>
           setQuestions(
-            Array.from(shuffle(json.questions)).slice(
-              0,
-              parseInt(questionCount)
-            )
+            Array.from(shuffle(json.questions)).slice(0, questionCount)
           )
         );
     }
@@ -105,6 +105,7 @@ const Layout = () => {
     if (Questions.length > 0) {
       fetchSingleQuestion(Questions[0].id);
       getIdArray(Questions);
+      setShowQuestion(true);
     }
   }, [Questions]);
 
@@ -179,18 +180,21 @@ const Layout = () => {
             </h3>
           </ScoredCard>
         )}
-        {question !== null && (
+        {question !== null && showQuestion && (
           <Question
             setIsCorrect={setIsCorrect}
             data={question}
             key={question.id}
             score={score}
-            setScore={setScore}
             setShowScore={setShowScore}
-            state={state}
-            setState={setState}
+            setScore={setScore}
+            questionState={questionState}
+            setQuestionState={setQuestionState}
             fetchSingleQuestion={fetchSingleQuestion}
             idArray={idArray}
+            setShowQuestion={setShowQuestion}
+            setUser={setUser}
+            user={user}
           />
         )}
 
@@ -202,7 +206,9 @@ const Layout = () => {
           questionCount={questionCount}
           setQuestionsArray={setQuestionsArray}
           setShowScore={setShowScore}
-          state={state}
+          questionState={questionState}
+          setShowQuestion={setShowQuestion}
+          fetchSingleQuestion={fetchSingleQuestion}
         />
       )}
     </div>
