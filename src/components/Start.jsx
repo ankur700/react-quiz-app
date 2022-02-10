@@ -1,20 +1,16 @@
 import React, { useState } from 'react';
-import { useEffect } from 'react/cjs/react.development';
 
 const Start = ({
   children,
   user,
   setUser,
   setQuestionCount,
-  setGameStarted,
+  setShowQuestion,
   setShowStart,
+  fetchAllQuestions,
 }) => {
-  const [name, setName] = useState('');
+  const [name, setName] = useState(user.userName);
   const [show, setShow] = useState(false);
-
-  useEffect(() => {
-    setName(user.username);
-  }, []);
 
   const handleSelect = event => {
     event.preventDefault();
@@ -30,8 +26,8 @@ const Start = ({
     e.preventDefault();
 
     const newUser = {
-      username: name,
-      data: [],
+      userName: name,
+      bestScores: [...user.bestScores],
     };
     setUser({ ...newUser });
   };
@@ -59,6 +55,7 @@ const Start = ({
               onChange={e => handleSelect(e)}
             >
               <option value='0'>Select no of questions</option>
+              <option value='2'>10</option>
               <option value='10'>10</option>
               <option value='15'>15</option>
               <option value='25'>25</option>
@@ -71,8 +68,9 @@ const Start = ({
             className='clay start__btn'
             role='button'
             onClick={() => {
-              setGameStarted(true);
+              setShowQuestion(true);
               setShowStart(false);
+              fetchAllQuestions();
             }}
           >
             Start

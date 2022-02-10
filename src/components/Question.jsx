@@ -11,14 +11,18 @@ const Question = ({
   fetchSingleQuestion,
   idArray,
   setShowQuestion,
-  setUser,
   user,
+  setUser,
+  setPlayAgain,
 }) => {
   const { id, question, image, options, answer, explanation } = data;
 
   const [showAnswer, setShowAnswer] = useState(false);
 
-  let questionIndex = questionState.findIndex(item => item.id === id);
+  let questionIndex =
+    questionState.findIndex(item => item.id === id) !== -1
+      ? questionState.findIndex(item => item.id === id)
+      : 0;
 
   const playSound = index => {
     const successAudio = new Audio(
@@ -36,6 +40,21 @@ const Question = ({
       index + 1 === answer ? true : false;
   };
 
+  const setUserData = (newscore, newuser) => {
+    const hasPrevScores = newuser.bestScores.length > 0 ? true : false;
+    const prevScores = hasPrevScores ? [...user.bestScores] : [];
+
+    const newBestScores = [...prevScores, newscore]
+      .sort((a, b) => b - a)
+      .slice(0, 3);
+
+    const userData = {
+      userName: newuser.userName.toString(),
+      bestScores: [...newBestScores],
+    };
+    setUser({ ...userData });
+  };
+
   const handleClick = (e, index) => {
     e.preventDefault();
     let target = e.currentTarget;
@@ -44,24 +63,38 @@ const Question = ({
     if (questionState[questionIndex].attempted === false) {
       setQuestionStates(index);
       playSound(index);
-      if (questionIndex === questionState.length - 1) {
-        setTimeout(() => {
-          setShowQuestion(false);
-          setShowScore(true);
-          setUser('user', {
-            username: user.username,
-            data: [...questionState],
-          });
-        }, 3000);
-      }
 
-      if (index + 1 === answer) {
-        setIsCorrect(true);
-        target.classList.add('success');
-        setScore(score + 1);
-      } else {
-        setIsCorrect(false);
-        target.classList.add('error');
+      if (questionIndex !== questionState.length - 1) {
+        if (index + 1 === answer) {
+          setIsCorrect(true);
+          target.classList.add('success');
+          setScore(score + 1);
+        } else {
+          setIsCorrect(false);
+          target.classList.add('error');
+        }
+      } else if (questionIndex === questionState.length - 1) {
+        setPlayAgain(false);
+        if (index + 1 === answer) {
+          setIsCorrect(true);
+          target.classList.add('success');
+          setScore(score + 1);
+          setUserData(score + 1, user);
+
+          setTimeout(() => {
+            setShowQuestion(false);
+            setShowScore(true);
+          }, 1000);
+        } else {
+          setIsCorrect(false);
+          target.classList.add('error');
+          setUserData(score, user);
+
+          setTimeout(() => {
+            setShowQuestion(false);
+            setShowScore(true);
+          }, 1000);
+        }
       }
     } else if (
       questionState[questionIndex].attempted === true &&
@@ -146,7 +179,11 @@ const Question = ({
                 e.preventDefault();
                 setShowAnswer(!showAnswer);
               }}
-              disabled={questionState[questionIndex].attempted ? false : true}
+              disabled={
+                questionState[questionIndex ? questionIndex : 0].attempted
+                  ? false
+                  : true
+              }
             >
               <FaQuestion />
             </button>

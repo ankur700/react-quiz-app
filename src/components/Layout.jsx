@@ -26,7 +26,7 @@ const Layout = () => {
 
   const defaultUserSate = {
     userName: 'johnyPapa',
-    data: [],
+    bestScores: [],
   };
 
   const [Questions, setQuestions] = useState([]);
@@ -37,10 +37,10 @@ const Layout = () => {
   const [questionState, setQuestionState] = useState([]);
   const [isCorrect, setIsCorrect] = useState(false);
   const [showStart, setShowStart] = useState(true);
-  const [gameStarted, setGameStarted] = useState(false);
   const [showQuestion, setShowQuestion] = useState(false);
   const [user, setUser] = useLocalStorage('user', { ...defaultUserSate });
   const [idArray, setIdArray] = useState([]);
+  const [playAgain, setPlayAgain] = useState(false);
 
   //Switch the Theme
   const switchTheme = theme => {
@@ -75,6 +75,7 @@ const Layout = () => {
     fetch(`/api/questions/${id}`)
       .then(response => response.json())
       .then(json => setQuestion({ ...json.question }));
+    console.log('loding single question');
   };
 
   const getIdArray = array => {
@@ -89,7 +90,7 @@ const Layout = () => {
     setQuestionState([...stateArray]);
   };
 
-  useEffect(() => {
+  const fetchAllQuestions = () => {
     if (questionCount > 0) {
       fetch('/api/questions')
         .then(response => response.json())
@@ -99,15 +100,24 @@ const Layout = () => {
           )
         );
     }
-  }, [questionCount]);
+  };
 
   useEffect(() => {
-    if (Questions.length > 0) {
+    if (showQuestion && Questions.length > 0) {
       fetchSingleQuestion(Questions[0].id);
       getIdArray(Questions);
-      setShowQuestion(true);
     }
   }, [Questions]);
+
+  const resetAll = () => {
+    setScore(0);
+  };
+
+  useEffect(() => {
+    if (playAgain) {
+      resetAll();
+    }
+  }, [playAgain]);
 
   const refAnimationInstance = useRef(null);
 
@@ -152,7 +162,6 @@ const Layout = () => {
       startVelocity: 45,
     });
   }, [makeShot]);
-
   useEffect(() => {
     if (!isCorrect) return;
     if (isCorrect) {
@@ -169,8 +178,9 @@ const Layout = () => {
             user={user}
             setUser={setUser}
             setQuestionCount={setQuestionCount}
-            setGameStarted={setGameStarted}
+            setShowQuestion={setShowQuestion}
             setShowStart={setShowStart}
+            fetchAllQuestions={fetchAllQuestions}
           ></Start>
         )}
         {showScore && (
@@ -178,9 +188,35 @@ const Layout = () => {
             <h3>
               You scored {score} out of {Questions.length}
             </h3>
+            <h3>Best Scores</h3>
+            {user.bestScores.length > 0 && (
+              <div className='clay best__scores'>
+                <ol>
+                  {user.bestScores.map(item => {
+                    return (
+                      <li className='scores'>
+                        <strong> Score:</strong>
+                        {item}
+                      </li>
+                    );
+                  })}
+                </ol>
+              </div>
+            )}
+
+            <button
+              className='clay'
+              onClick={() => {
+                setPlayAgain(!playAgain);
+                setShowScore(!showScore);
+                setShowStart(!showStart);
+              }}
+            >
+              Play Again
+            </button>
           </ScoredCard>
         )}
-        {question !== null && showQuestion && (
+        {showQuestion && question !== null && (
           <Question
             setIsCorrect={setIsCorrect}
             data={question}
@@ -193,14 +229,15 @@ const Layout = () => {
             fetchSingleQuestion={fetchSingleQuestion}
             idArray={idArray}
             setShowQuestion={setShowQuestion}
-            setUser={setUser}
             user={user}
+            setUser={setUser}
+            setPlayAgain={setPlayAgain}
           />
         )}
 
         <ReactCanvasConfetti refConfetti={getInstance} style={canvasStyles} />
       </Main>
-      {gameStarted && (
+      {showQuestion && (
         <Sidebar
           Questions={Questions}
           questionCount={questionCount}

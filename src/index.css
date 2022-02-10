@@ -559,6 +559,16 @@ select > option {
   font-size: 2.5rem;
 }
 
+.best__scores {
+  padding: 2rem;
+  min-width: 20rem;
+}
+.scores {
+  display: flex;
+  justify-content: space-around;
+  font-size: var(--h2-font-size);
+}
+
 @media screen and (min-width: 968px) {
   .App {
     column-gap: 2.5rem;
