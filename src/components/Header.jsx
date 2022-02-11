@@ -10,7 +10,7 @@ const toggleStyle = {
   cursor: 'pointer',
 };
 
-const Header = ({ theme, switchTheme }) => {
+const Header = ({ theme, switchTheme, user }) => {
   return (
     <header className='App-header'>
       <div className='main-nav clay'>
@@ -50,6 +50,9 @@ const Header = ({ theme, switchTheme }) => {
             )}
           </div>
         </label>
+        <div className='user '>
+          <button className='clay'>{user.userName}</button>
+        </div>
       </div>
     </header>
   );

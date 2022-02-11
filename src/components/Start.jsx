@@ -24,7 +24,9 @@ const Start = ({
 
   const handleSubmit = e => {
     e.preventDefault();
+  };
 
+  const handleFormSubmit = () => {
     const newUser = {
       userName: name,
       bestScores: [...user.bestScores],
@@ -55,7 +57,6 @@ const Start = ({
               onChange={e => handleSelect(e)}
             >
               <option value='0'>Select no of questions</option>
-              <option value='2'>10</option>
               <option value='10'>10</option>
               <option value='15'>15</option>
               <option value='25'>25</option>
@@ -70,6 +71,7 @@ const Start = ({
             onClick={() => {
               setShowQuestion(true);
               setShowStart(false);
+              handleFormSubmit();
               fetchAllQuestions();
             }}
           >

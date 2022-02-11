@@ -7,6 +7,7 @@ import Question from './Question';
 import ReactCanvasConfetti from 'react-canvas-confetti';
 import Start from './Start';
 import ScoredCard from './ScoredCard';
+import Loading from './Loading';
 
 const canvasStyles = {
   position: 'fixed',
@@ -41,6 +42,7 @@ const Layout = () => {
   const [user, setUser] = useLocalStorage('user', { ...defaultUserSate });
   const [idArray, setIdArray] = useState([]);
   const [playAgain, setPlayAgain] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   //Switch the Theme
   const switchTheme = theme => {
@@ -104,10 +106,17 @@ const Layout = () => {
 
   useEffect(() => {
     if (showQuestion && Questions.length > 0) {
+      setIsLoading(!isLoading);
       fetchSingleQuestion(Questions[0].id);
       getIdArray(Questions);
     }
   }, [Questions]);
+
+  useEffect(() => {
+    if (question !== null) {
+      setIsLoading(!isLoading);
+    }
+  }, [question]);
 
   const resetAll = () => {
     setScore(0);
@@ -171,7 +180,7 @@ const Layout = () => {
 
   return (
     <div className='App' data-theme={theme}>
-      <Header theme={theme} switchTheme={switchTheme} />
+      <Header theme={theme} switchTheme={switchTheme} user={user} />
       <Main>
         {showStart && (
           <Start
@@ -205,7 +214,7 @@ const Layout = () => {
             )}
 
             <button
-              className='clay'
+              className='clay play__again'
               onClick={() => {
                 setPlayAgain(!playAgain);
                 setShowScore(!showScore);
@@ -216,7 +225,9 @@ const Layout = () => {
             </button>
           </ScoredCard>
         )}
-        {showQuestion && question !== null && (
+
+        {isLoading && <Loading />}
+        {showQuestion && question !== null && !isLoading && (
           <Question
             setIsCorrect={setIsCorrect}
             data={question}
@@ -232,6 +243,8 @@ const Layout = () => {
             user={user}
             setUser={setUser}
             setPlayAgain={setPlayAgain}
+            isLoading={isLoading}
+            setIsLoading={setIsLoading}
           />
         )}
 

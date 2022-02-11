@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import { FaQuestion } from 'react-icons/fa';
 
 const Question = ({
@@ -14,6 +14,8 @@ const Question = ({
   user,
   setUser,
   setPlayAgain,
+  isLoading,
+  setIsLoading,
 }) => {
   const { id, question, image, options, answer, explanation } = data;
 
@@ -32,7 +34,7 @@ const Question = ({
     index + 1 === answer ? successAudio.play() : failAudio.play();
   };
 
-  const selectedRef = useRef(null);
+  const answerRef = useRef(null);
 
   const setQuestionStates = index => {
     questionState[questionIndex].attempted = true;
@@ -128,6 +130,7 @@ const Question = ({
     let newId = idArray[index + 1];
 
     if (newId) {
+      setIsLoading(!isLoading);
       fetchSingleQuestion(`${parseInt(newId)}`);
     }
     reset();
@@ -137,6 +140,7 @@ const Question = ({
     e.preventDefault();
     let index = idArray.indexOf(id);
     let newId = idArray[index - 1];
+    setIsLoading(!isLoading);
     fetchSingleQuestion(`${parseInt(newId)}`);
     reset();
   };
@@ -163,7 +167,6 @@ const Question = ({
                   className='option clay'
                   onClick={e => handleClick(e, index)}
                   dangerouslySetInnerHTML={{ __html: option }}
-                  ref={selectedRef}
                 ></li>
               </>
             );
@@ -179,6 +182,7 @@ const Question = ({
                 e.preventDefault();
                 setShowAnswer(!showAnswer);
               }}
+              ref={answerRef}
               disabled={
                 questionState[questionIndex ? questionIndex : 0].attempted
                   ? false

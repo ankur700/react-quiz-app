@@ -9,6 +9,14 @@
   --grid-template-column: 1fr;
   --grid-template-row: max-content 1fr;
 
+  --fg: var(--clay-background);
+  --shade1: hsla(var(--hue-color), 69%, 61%, 0.7);
+  --shade2: hsla(var(--hue-color), 30%, 53%, 0.3);
+  --shade3: hsla(var(--hue-color), 69%, 61%, 0.5);
+  --shade4: hsla(var(--hue-color), 30%, 53%, 0.1);
+  --dur1: 1s;
+  --dur2: 6s;
+
   /*========== Colors ==========*/
   /* Change favorite color */
   --hue-color: 230; /*Purple 250 - Green 142 - Blue 230 - Pink 340*/
@@ -93,6 +101,12 @@
     inset 0 8px 10px 0 hsla(var(--black), 0.25);
   --red: #ef4444;
   --green: #22c55e;
+
+  --fg: #e3e4e8;
+  --shade1: #23252a;
+  --shade2: #3e424c;
+  --shade3: #4a4e5a;
+  --shade4: #686e7e;
 }
 
 /*==================== BASE ====================*/
@@ -301,9 +315,11 @@ code {
 }
 
 .pagination__button,
-.start__btn {
-  padding: var(--padding-small) var(--padding-big);
+.start__btn,
+.play__again,
+.user button {
   border-radius: 10px;
+  padding: var(--padding-small) var(--padding-medium);
   color: var(--title-color);
   border: none;
   cursor: pointer;
@@ -311,9 +327,58 @@ code {
   font-weight: var(--font-semi-bold);
 }
 
+.user button {
+  color: var(--first-color);
+  padding: var(--padding-small);
+  border: solid 3px transparent;
+  background-image: linear-gradient(
+      rgba(255, 255, 255, 0),
+      rgba(255, 255, 255, 0)
+    ),
+    linear-gradient(101deg, var(--first-color-lighter), var(--first-color-alt));
+  background-origin: border-box;
+  background-clip: content-box, border-box;
+  box-shadow: 2px 1000px 1px var(--clay-background) inset;
+}
+
+.user button:hover {
+  box-shadow: none;
+  color: white;
+}
+
 .pagination__button:hover,
 .pagination__button:active {
   outline: none;
+}
+
+.loading {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.loading svg {
+  max-width: 25em;
+  border-radius: 3px;
+  /* box-shadow: 2px 2px 5px #000;
+  background: #111; */
+  fill: none;
+  stroke: #222;
+  stroke-linecap: round;
+  stroke-width: 8%;
+}
+
+use {
+  stroke: #fff;
+  animation: a 2s linear infinite;
+}
+
+@keyframes a {
+  to {
+    stroke-dashoffset: 0px;
+  }
 }
 
 .sidebar__wrapper {
@@ -599,5 +664,390 @@ select > option {
 
   body {
     font-size: var(--smaller-font-size);
+  }
+}
+
+.loading {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+}
+
+.preloader {
+  /* animation: largePopOut var(--dur1) linear; */
+  /* border-radius: 50%; */
+  /* box-shadow: var(--clay-boxShadow); */
+  position: relative;
+  width: 12em;
+  height: 12em;
+  background: transparent;
+}
+.preloader__square {
+  animation: smallPopOut1 var(--dur1) linear,
+    popInOut var(--dur2) var(--dur1) linear infinite;
+  border-radius: 0.5em;
+  box-shadow: var(--clay-boxShadow);
+  position: absolute;
+  top: 2.5em;
+  left: 2.5em;
+  width: 3em;
+  height: 3em;
+}
+.preloader__square:nth-child(n + 2):nth-child(-n + 3) {
+  left: 6.5em;
+}
+.preloader__square:nth-child(n + 3) {
+  top: 6.5em;
+}
+.preloader__square:nth-child(2) {
+  animation: smallPopOut2 var(--dur1) linear,
+    move2 var(--dur2) var(--dur1) linear infinite;
+}
+.preloader__square:nth-child(3) {
+  animation: smallPopOut3 var(--dur1) linear,
+    move3 var(--dur2) var(--dur1) linear infinite;
+}
+.preloader__square:nth-child(4) {
+  animation: smallPopOut4 var(--dur1) linear,
+    move4 var(--dur2) var(--dur1) linear infinite;
+}
+.status {
+  animation: fadeIn var(--dur1) linear forwards;
+  text-align: center;
+  font-size: var(--normal-font-size);
+}
+.status__dot {
+  animation: appear1 var(--dur1) var(--dur1) steps(1, start) infinite;
+  display: inline-block;
+}
+.status__dot:nth-child(2) {
+  animation: appear2 var(--dur1) var(--dur1) steps(1, start) infinite;
+}
+.status__dot:nth-child(3) {
+  animation: appear3 var(--dur1) var(--dur1) steps(1, start) infinite;
+}
+
+/* Animations */
+@keyframes largePopOut {
+  from,
+  20% {
+    box-shadow: 0 0 0 var(--shade4) inset, 0 0 0 var(--shade1) inset,
+      0 0 0 var(--shade1), 0 0 0 var(--shade4);
+  }
+  40% {
+    box-shadow: 0.15em 0.15em 0.15em var(--shade4) inset,
+      -0.15em -0.15em 0.15em var(--shade1) inset, 2em 2em 2em var(--shade1),
+      -2em -2em 4em var(--shade4);
+  }
+  60%,
+  to {
+    box-shadow: 0.15em 0.15em 0.15em var(--shade4) inset,
+      -0.15em -0.15em 0.15em var(--shade1) inset, 1em 1em 2em var(--shade1),
+      -1em -1em 2em var(--shade4);
+  }
+}
+@keyframes smallPopOut1 {
+  from,
+  40% {
+    box-shadow: 0 0 0 var(--shade4) inset, 0 0 0 var(--shade1) inset,
+      0 0 0 var(--shade1), 0 0 0 var(--shade4);
+  }
+  60% {
+    box-shadow: 0.15em 0.15em 0.15em var(--shade4) inset,
+      -0.15em -0.15em 0.15em var(--shade1) inset,
+      0.5em 0.5em 0.5em var(--shade1), -0.5em -0.5em 1em var(--shade4);
+  }
+  80%,
+  to {
+    box-shadow: 0.15em 0.15em 0.15em var(--shade4) inset,
+      -0.15em -0.15em 0.15em var(--shade1) inset,
+      0.25em 0.25em 0.5em var(--shade1), -0.25em -0.25em 0.5em var(--shade4);
+  }
+}
+
+@keyframes smallPopOut2 {
+  from,
+  45% {
+    box-shadow: 0 0 0 var(--shade4) inset, 0 0 0 var(--shade1) inset,
+      0 0 0 var(--shade1), 0 0 0 var(--shade4);
+  }
+  65% {
+    box-shadow: 0.15em 0.15em 0.15em var(--shade4) inset,
+      -0.15em -0.15em 0.15em var(--shade1) inset,
+      0.5em 0.5em 0.5em var(--shade1), -0.5em -0.5em 1em var(--shade4);
+  }
+  85%,
+  to {
+    box-shadow: 0.15em 0.15em 0.15em var(--shade4) inset,
+      -0.15em -0.15em 0.15em var(--shade1) inset,
+      0.25em 0.25em 0.5em var(--shade1), -0.25em -0.25em 0.5em var(--shade4);
+  }
+}
+
+@keyframes smallPopOut3 {
+  from,
+  50% {
+    box-shadow: 0 0 0 var(--shade4) inset, 0 0 0 var(--shade1) inset,
+      0 0 0 var(--shade1), 0 0 0 var(--shade4);
+  }
+  70% {
+    box-shadow: 0.15em 0.15em 0.15em var(--shade4) inset,
+      -0.15em -0.15em 0.15em var(--shade1) inset,
+      0.5em 0.5em 0.5em var(--shade1), -0.5em -0.5em 1em var(--shade4);
+  }
+  90%,
+  to {
+    box-shadow: 0.15em 0.15em 0.15em var(--shade4) inset,
+      -0.15em -0.15em 0.15em var(--shade1) inset,
+      0.25em 0.25em 0.5em var(--shade1), -0.25em -0.25em 0.5em var(--shade4);
+  }
+}
+
+@keyframes smallPopOut4 {
+  from,
+  55% {
+    box-shadow: 0 0 0 var(--shade4) inset, 0 0 0 var(--shade1) inset,
+      0 0 0 var(--shade1), 0 0 0 var(--shade4);
+  }
+  75% {
+    box-shadow: 0.15em 0.15em 0.15em var(--shade4) inset,
+      -0.15em -0.15em 0.15em var(--shade1) inset,
+      0.5em 0.5em 0.5em var(--shade1), -0.5em -0.5em 1em var(--shade4);
+  }
+  95%,
+  to {
+    box-shadow: 0.15em 0.15em 0.15em var(--shade4) inset,
+      -0.15em -0.15em 0.15em var(--shade1) inset,
+      0.25em 0.25em 0.5em var(--shade1), -0.25em -0.25em 0.5em var(--shade4);
+  }
+}
+@keyframes popInOut {
+  from {
+    box-shadow: 0.15em 0.15em 0.15em var(--shade4) inset,
+      -0.15em -0.15em 0.15em var(--shade1) inset,
+      0.25em 0.25em 0.5em var(--shade1), -0.25em -0.25em 0.5em var(--shade4);
+    transform: translate(0, 0);
+  }
+  4% {
+    box-shadow: 0.15em 0.15em 0.15em var(--shade4) inset,
+      -0.15em -0.15em 0.15em var(--shade1) inset,
+      0.5em 0.5em 0.5em var(--shade1), -0.5em -0.5em 1em var(--shade4);
+    transform: translate(0, 0);
+  }
+  8% {
+    box-shadow: 0 0 0 var(--shade4) inset, 0 0 0 var(--shade1) inset,
+      0 0 0 var(--shade1), 0 0 0 var(--shade4);
+    transform: translate(0, 0);
+  }
+  12%,
+  16% {
+    box-shadow: 0 0 0 var(--shade4) inset, 0 0 0 var(--shade1) inset,
+      0 0 0 var(--shade1), 0 0 0 var(--shade4);
+    transform: translate(4em, 0);
+  }
+  20% {
+    box-shadow: 0.15em 0.15em 0.15em var(--shade4) inset,
+      -0.15em -0.15em 0.15em var(--shade1) inset,
+      0.5em 0.5em 0.5em var(--shade1), -0.5em -0.5em 1em var(--shade4);
+    transform: translate(4em, 0);
+  }
+  24%,
+  25% {
+    box-shadow: 0.15em 0.15em 0.15em var(--shade4) inset,
+      -0.15em -0.15em 0.15em var(--shade1) inset,
+      0.25em 0.25em 0.5em var(--shade1), -0.25em -0.25em 0.5em var(--shade4);
+    transform: translate(4em, 0);
+  }
+  29% {
+    box-shadow: 0.15em 0.15em 0.15em var(--shade4) inset,
+      -0.15em -0.15em 0.15em var(--shade1) inset,
+      0.5em 0.5em 0.5em var(--shade1), -0.5em -0.5em 1em var(--shade4);
+    transform: translate(4em, 0);
+  }
+  33% {
+    box-shadow: 0 0 0 var(--shade4) inset, 0 0 0 var(--shade1) inset,
+      0 0 0 var(--shade1), 0 0 0 var(--shade4);
+    transform: translate(4em, 0);
+  }
+  37%,
+  41% {
+    box-shadow: 0 0 0 var(--shade4) inset, 0 0 0 var(--shade1) inset,
+      0 0 0 var(--shade1), 0 0 0 var(--shade4);
+    transform: translate(4em, 4em);
+  }
+  45% {
+    box-shadow: 0.15em 0.15em 0.15em var(--shade4) inset,
+      -0.15em -0.15em 0.15em var(--shade1) inset,
+      0.5em 0.5em 0.5em var(--shade1), -0.5em -0.5em 1em var(--shade4);
+    transform: translate(4em, 4em);
+  }
+  49%,
+  50% {
+    box-shadow: 0.15em 0.15em 0.15em var(--shade4) inset,
+      -0.15em -0.15em 0.15em var(--shade1) inset,
+      0.25em 0.25em 0.5em var(--shade1), -0.25em -0.25em 0.5em var(--shade4);
+    transform: translate(4em, 4em);
+  }
+  54% {
+    box-shadow: 0.15em 0.15em 0.15em var(--shade4) inset,
+      -0.15em -0.15em 0.15em var(--shade1) inset,
+      0.5em 0.5em 0.5em var(--shade1), -0.5em -0.5em 1em var(--shade4);
+    transform: translate(4em, 4em);
+  }
+  58% {
+    box-shadow: 0 0 0 var(--shade4) inset, 0 0 0 var(--shade1) inset,
+      0 0 0 var(--shade1), 0 0 0 var(--shade4);
+    transform: translate(4em, 4em);
+  }
+  62%,
+  66% {
+    box-shadow: 0 0 0 var(--shade4) inset, 0 0 0 var(--shade1) inset,
+      0 0 0 var(--shade1), 0 0 0 var(--shade4);
+    transform: translate(0, 4em);
+  }
+  70% {
+    box-shadow: 0.15em 0.15em 0.15em var(--shade4) inset,
+      -0.15em -0.15em 0.15em var(--shade1) inset,
+      0.5em 0.5em 0.5em var(--shade1), -0.5em -0.5em 1em var(--shade4);
+    transform: translate(0, 4em);
+  }
+  74%,
+  75% {
+    box-shadow: 0.15em 0.15em 0.15em var(--shade4) inset,
+      -0.15em -0.15em 0.15em var(--shade1) inset,
+      0.25em 0.25em 0.5em var(--shade1), -0.25em -0.25em 0.5em var(--shade4);
+    transform: translate(0, 4em);
+  }
+  79% {
+    box-shadow: 0.15em 0.15em 0.15em var(--shade4) inset,
+      -0.15em -0.15em 0.15em var(--shade1) inset,
+      0.5em 0.5em 0.5em var(--shade1), -0.5em -0.5em 1em var(--shade4);
+    transform: translate(0, 4em);
+  }
+  83% {
+    box-shadow: 0 0 0 var(--shade4) inset, 0 0 0 var(--shade1) inset,
+      0 0 0 var(--shade1), 0 0 0 var(--shade4);
+    transform: translate(0, 4em);
+  }
+  87%,
+  91% {
+    box-shadow: 0 0 0 var(--shade4) inset, 0 0 0 var(--shade1) inset,
+      0 0 0 var(--shade1), 0 0 0 var(--shade4);
+    transform: translate(0, 0);
+  }
+  95% {
+    box-shadow: 0.15em 0.15em 0.15em var(--shade4) inset,
+      -0.15em -0.15em 0.15em var(--shade1) inset,
+      0.5em 0.5em 0.5em var(--shade1), -0.5em -0.5em 1em var(--shade4);
+    transform: translate(0, 0);
+  }
+  99%,
+  to {
+    box-shadow: 0.15em 0.15em 0.15em var(--shade4) inset,
+      -0.15em -0.15em 0.15em var(--shade1) inset,
+      0.25em 0.25em 0.5em var(--shade1), -0.25em -0.25em 0.5em var(--shade4);
+    transform: translate(0, 0);
+  }
+}
+@keyframes move2 {
+  from,
+  8% {
+    transform: translate(0, 0);
+    width: 3em;
+    height: 3em;
+  }
+  12% {
+    transform: translate(-4em, 0);
+    width: 7em;
+    height: 3em;
+  }
+  16%,
+  83% {
+    transform: translate(-4em, 0);
+    width: 3em;
+    height: 3em;
+  }
+  87% {
+    transform: translate(-4em, 0);
+    width: 3em;
+    height: 7em;
+  }
+  91%,
+  to {
+    transform: translate(-4em, 4em);
+    width: 3em;
+    height: 3em;
+  }
+}
+@keyframes move3 {
+  from,
+  33% {
+    transform: translate(0, 0);
+    height: 3em;
+  }
+  37% {
+    transform: translate(0, -4em);
+    height: 7em;
+  }
+  41%,
+  to {
+    transform: translate(0, -4em);
+    height: 3em;
+  }
+}
+@keyframes move4 {
+  from,
+  58% {
+    transform: translate(0, 0);
+    width: 3em;
+  }
+  62% {
+    transform: translate(0, 0);
+    width: 7em;
+  }
+  66%,
+  to {
+    transform: translate(4em, 0);
+    width: 3em;
+  }
+}
+@keyframes fadeIn {
+  from,
+  67% {
+    opacity: 0;
+  }
+  83.3%,
+  to {
+    opacity: 1;
+  }
+}
+@keyframes appear1 {
+  from {
+    visibility: hidden;
+  }
+  33%,
+  to {
+    visibility: visible;
+  }
+}
+@keyframes appear2 {
+  from,
+  33% {
+    visibility: hidden;
+  }
+  67%,
+  to {
+    visibility: visible;
+  }
+}
+@keyframes appear3 {
+  from,
+  67% {
+    visibility: hidden;
+  }
+  to {
+    visibility: visible;
   }
 }
