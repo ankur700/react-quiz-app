@@ -110,16 +110,20 @@ const Layout = () => {
       fetchSingleQuestion(Questions[0].id);
       getIdArray(Questions);
     }
-  }, [Questions]);
-
-  useEffect(() => {
     if (question !== null) {
       setIsLoading(!isLoading);
     }
-  }, [question]);
+  }, [Questions]);
+
+  // useEffect(() => {
+
+  // }, [question]);
 
   const resetAll = () => {
     setScore(0);
+    Questions([]);
+    setShowQuestion(false);
+    setQuestionState([]);
   };
 
   useEffect(() => {
@@ -178,6 +182,13 @@ const Layout = () => {
     }
   }, [fire, isCorrect]);
 
+  const restart = () => {
+    setPlayAgain(!playAgain);
+    setShowScore(!showScore);
+    setShowStart(!showStart);
+    setShowQuestion(!showQuestion);
+  };
+
   return (
     <div className='App' data-theme={theme}>
       <Header theme={theme} switchTheme={switchTheme} user={user} />
@@ -213,14 +224,7 @@ const Layout = () => {
               </div>
             )}
 
-            <button
-              className='clay play__again'
-              onClick={() => {
-                setPlayAgain(!playAgain);
-                setShowScore(!showScore);
-                setShowStart(!showStart);
-              }}
-            >
+            <button className='clay play__again' onClick={() => restart()}>
               Play Again
             </button>
           </ScoredCard>

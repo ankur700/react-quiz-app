@@ -21,10 +21,7 @@ const Question = ({
 
   const [showAnswer, setShowAnswer] = useState(false);
 
-  let questionIndex =
-    questionState.findIndex(item => item.id === id) !== -1
-      ? questionState.findIndex(item => item.id === id)
-      : 0;
+  let questionIndex = questionState.findIndex(item => item.id === id);
 
   const playSound = index => {
     const successAudio = new Audio(

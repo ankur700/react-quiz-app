@@ -57,6 +57,7 @@ const Start = ({
               onChange={e => handleSelect(e)}
             >
               <option value='0'>Select no of questions</option>
+              <option value='3'>3</option>
               <option value='10'>10</option>
               <option value='15'>15</option>
               <option value='25'>25</option>
