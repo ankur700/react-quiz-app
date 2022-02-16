@@ -26,7 +26,7 @@ const Layout = () => {
   );
 
   const defaultUserSate = {
-    userName: 'johnyPapa',
+    userName: 'Demo User',
     bestScores: [],
   };
 
@@ -73,6 +73,26 @@ const Layout = () => {
     return array;
   }
 
+  const fetchAllQuestions = () => {
+    if (questionCount > 0) {
+      fetch('/api/questions')
+        .then(response => response.json())
+        .then(json =>
+          setQuestions(
+            Array.from(shuffle(json.questions)).slice(0, questionCount)
+          )
+        );
+    }
+  };
+
+  useEffect(() => {
+    if (showQuestion && Questions.length > 0) {
+      setIsLoading(!isLoading);
+      fetchSingleQuestion(Questions[0].id);
+      getIdArray(Questions);
+    }
+  }, [Questions]);
+
   const fetchSingleQuestion = id => {
     fetch(`/api/questions/${id}`)
       .then(response => response.json())
@@ -92,43 +112,16 @@ const Layout = () => {
     setQuestionState([...stateArray]);
   };
 
-  const fetchAllQuestions = () => {
-    if (questionCount > 0) {
-      fetch('/api/questions')
-        .then(response => response.json())
-        .then(json =>
-          setQuestions(
-            Array.from(shuffle(json.questions)).slice(0, questionCount)
-          )
-        );
-    }
-  };
-
   useEffect(() => {
-    if (showQuestion && Questions.length > 0) {
-      setIsLoading(!isLoading);
-      fetchSingleQuestion(Questions[0].id);
-      getIdArray(Questions);
-    }
     if (question !== null) {
       setIsLoading(!isLoading);
     }
-  }, [Questions]);
-
-  // useEffect(() => {
-
-  // }, [question]);
-
-  const resetAll = () => {
-    setScore(0);
-    Questions([]);
-    setShowQuestion(false);
-    setQuestionState([]);
-  };
+  }, [question]);
 
   useEffect(() => {
     if (playAgain) {
-      resetAll();
+      setScore(0);
+      setShowQuestion(false);
     }
   }, [playAgain]);
 
@@ -175,6 +168,7 @@ const Layout = () => {
       startVelocity: 45,
     });
   }, [makeShot]);
+
   useEffect(() => {
     if (!isCorrect) return;
     if (isCorrect) {

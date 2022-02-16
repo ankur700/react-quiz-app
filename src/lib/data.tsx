@@ -16,7 +16,7 @@ export const Data = [
   {
     id: 2,
     question: 'What’s the output?',
-    image: 'question-8.svg',
+    image: 'question-2.svg',
     options: [
       'A: <code>0 1 2</code> and <code>0 1 2</code>',
       'B: <code>0 1 2</code> and <code>3 3 3</code>',

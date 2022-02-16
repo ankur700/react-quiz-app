@@ -20,6 +20,7 @@ const Question = ({
   const { id, question, image, options, answer, explanation } = data;
 
   const [showAnswer, setShowAnswer] = useState(false);
+  const [isAllAttempted, setIsAllAttempted] = useState(false);
 
   let questionIndex = questionState.findIndex(item => item.id === id);
 
@@ -54,6 +55,22 @@ const Question = ({
     setUser({ ...userData });
   };
 
+  const check_if_all_attempted = () => {
+    const array = questionState.filter(item => item.attempted === false);
+    if (array.length === 0) {
+      setIsAllAttempted(true);
+    }
+    console.log(array);
+  };
+
+  const getScore = e => {
+    e.preventDefault();
+    if (isAllAttempted) {
+      setShowQuestion(false);
+      setShowScore(true);
+    }
+  };
+
   const handleClick = (e, index) => {
     e.preventDefault();
     let target = e.currentTarget;
@@ -79,20 +96,10 @@ const Question = ({
           target.classList.add('success');
           setScore(score + 1);
           setUserData(score + 1, user);
-
-          setTimeout(() => {
-            setShowQuestion(false);
-            setShowScore(true);
-          }, 1000);
         } else {
           setIsCorrect(false);
           target.classList.add('error');
           setUserData(score, user);
-
-          setTimeout(() => {
-            setShowQuestion(false);
-            setShowScore(true);
-          }, 1000);
         }
       }
     } else if (
@@ -103,6 +110,8 @@ const Question = ({
     } else {
       target.classList.add('error');
     }
+
+    check_if_all_attempted();
   };
 
   const resetOptions = () => {
@@ -210,6 +219,16 @@ const Question = ({
               onClick={e => handleNext(e, id)}
             >
               Next
+            </button>
+            <button
+              className={
+                isAllAttempted
+                  ? 'clay pagination__button'
+                  : 'clay pagination__button hidden'
+              }
+              onClick={e => getScore(e)}
+            >
+              Score
             </button>
           </div>
         </div>

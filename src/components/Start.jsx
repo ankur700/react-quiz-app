@@ -34,6 +34,13 @@ const Start = ({
     setUser({ ...newUser });
   };
 
+  const start = () => {
+    setShowQuestion(true);
+    setShowStart(false);
+    handleFormSubmit();
+    fetchAllQuestions();
+  };
+
   return (
     <div className='wrapper'>
       <div className='start__card'>
@@ -69,12 +76,7 @@ const Start = ({
             type='button'
             className='clay start__btn'
             role='button'
-            onClick={() => {
-              setShowQuestion(true);
-              setShowStart(false);
-              handleFormSubmit();
-              fetchAllQuestions();
-            }}
+            onClick={() => start()}
           >
             Start
           </button>
