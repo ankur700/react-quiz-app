@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+
+import Select from 'react-select';
 
 const Start = ({
   children,
@@ -12,11 +14,20 @@ const Start = ({
   const [name, setName] = useState(user.userName);
   const [show, setShow] = useState(false);
 
-  const handleSelect = event => {
-    event.preventDefault();
-    setQuestionCount(event.target.value);
+  const OPTIONS = [
+    { value: '3', label: '3' },
+    { value: '10', label: '10' },
+    { value: '15', label: '15' },
+    { value: '25', label: '25' },
+  ];
+
+  const [selectedValue, setSelectedValue] = useState(null);
+
+  useEffect(() => {
+    if (selectedValue == null) return;
+    setQuestionCount(parseInt(selectedValue.value));
     setShow(true);
-  };
+  }, [selectedValue]);
 
   const handleChange = e => {
     setName(e.target.value);
@@ -46,8 +57,12 @@ const Start = ({
       <div className='start__card'>
         <div className='user__info-form'>
           <form onSubmit={e => handleSubmit(e)} className='user__detail-form'>
-            <label htmlFor='name' className='user__name'>
-              Give yourself a cool name !!
+            <label
+              htmlFor='name'
+              className='user__name stroke shadow'
+              data-text='Your cool name !!'
+            >
+              Your cool name !!
             </label>
             <input
               className='clay user__input'
@@ -56,20 +71,14 @@ const Start = ({
               defaultValue={name}
               onChange={e => handleChange(e)}
             />
+            <Select
+              className='clay'
+              classNamePrefix='select'
+              defaultValue={selectedValue}
+              onChange={setSelectedValue}
+              options={OPTIONS}
+            />
           </form>
-          <div className='clay holder'>
-            <select
-              name='noofquestions'
-              id='noofquestions'
-              onChange={e => handleSelect(e)}
-            >
-              <option value='0'>Select no of questions</option>
-              <option value='3'>3</option>
-              <option value='10'>10</option>
-              <option value='15'>15</option>
-              <option value='25'>25</option>
-            </select>
-          </div>
         </div>
         {show && (
           <button

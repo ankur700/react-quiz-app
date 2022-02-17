@@ -1,16 +1,28 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { FiSun, FiMoon } from 'react-icons/fi';
 
-const toggleStyle = {
-  padding: '.75rem 1.5rem',
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
-  border: 'none',
-  cursor: 'pointer',
-};
-
 const Header = ({ theme, switchTheme, user }) => {
+  const HUE_COLOR = getComputedStyle(document.documentElement).getPropertyValue(
+    '--hue-color'
+  );
+
+  const HUE_COLOR_ARRAY = [340, 250, 230, 142];
+
+  const [themeColor, setThemeColor] = useState(`hsl(${HUE_COLOR}, 69%, 61%)`);
+  const [showColors, setShowColors] = useState(false);
+
+  const toggleColors = () => {
+    setShowColors(!showColors);
+  };
+
+  const handleThemeColor = (e, color) => {
+    e.preventDefault();
+    let root = document.documentElement;
+    root.style.setProperty('--hue-color', color);
+    setThemeColor(`hsl(${color}, 69%, 61%)`);
+    setShowColors(!showColors);
+  };
+
   return (
     <header className='App-header'>
       <div className='main-nav clay'>
@@ -53,7 +65,26 @@ const Header = ({ theme, switchTheme, user }) => {
         <div className='user '>
           <button className='clay'>{user.userName}</button>
         </div>
+        <div
+          className='colors__toggle'
+          style={{ backgroundColor: themeColor }}
+          onClick={() => toggleColors()}
+        ></div>
       </div>
+      {showColors && (
+        <div className='theme__colors'>
+          {HUE_COLOR_ARRAY?.map(color => {
+            return (
+              <div
+                key={color}
+                className='colors clay'
+                style={{ backgroundColor: `hsl(${color}, 69%, 61%)` }}
+                onClick={e => handleThemeColor(e, color)}
+              ></div>
+            );
+          })}
+        </div>
+      )}
     </header>
   );
 };
