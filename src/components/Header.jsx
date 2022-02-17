@@ -1,26 +1,53 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FiSun, FiMoon } from 'react-icons/fi';
+import chroma from 'chroma-js';
+import Select from 'react-select';
+import { colourOptions, dot } from '../lib/data';
 
 const Header = ({ theme, switchTheme, user }) => {
-  const HUE_COLOR = getComputedStyle(document.documentElement).getPropertyValue(
-    '--hue-color'
-  );
+  const [themeColor, setThemeColor] = useState(null);
 
-  const HUE_COLOR_ARRAY = [340, 250, 230, 142];
-
-  const [themeColor, setThemeColor] = useState(`hsl(${HUE_COLOR}, 69%, 61%)`);
-  const [showColors, setShowColors] = useState(false);
-
-  const toggleColors = () => {
-    setShowColors(!showColors);
-  };
-
-  const handleThemeColor = (e, color) => {
-    e.preventDefault();
+  useEffect(() => {
+    if (themeColor === null) return;
     let root = document.documentElement;
-    root.style.setProperty('--hue-color', color);
-    setThemeColor(`hsl(${color}, 69%, 61%)`);
-    setShowColors(!showColors);
+    root.style.setProperty('--hue-color', themeColor.hue);
+  }, [themeColor]);
+
+  const colourStyles = {
+    control: styles => ({ ...styles, backgroundColor: 'white' }),
+    option: (styles, { data, isDisabled, isFocused, isSelected }) => {
+      const color = chroma(data.color);
+      return {
+        ...styles,
+        backgroundColor: isDisabled
+          ? undefined
+          : isSelected
+          ? data.color
+          : isFocused
+          ? color.alpha(0.1).css()
+          : undefined,
+        color: isDisabled
+          ? '#ccc'
+          : isSelected
+          ? chroma.contrast(color, 'white') > 2
+            ? 'white'
+            : 'black'
+          : data.color,
+        cursor: isDisabled ? 'not-allowed' : 'default',
+
+        ':active': {
+          ...styles[':active'],
+          backgroundColor: !isDisabled
+            ? isSelected
+              ? data.color
+              : color.alpha(0.3).css()
+            : undefined,
+        },
+      };
+    },
+    input: styles => ({ ...styles, ...dot() }),
+    placeholder: styles => ({ ...styles, ...dot('#ccc') }),
+    singleValue: (styles, { data }) => ({ ...styles, ...dot(data.color) }),
   };
 
   return (
@@ -65,26 +92,15 @@ const Header = ({ theme, switchTheme, user }) => {
         <div className='user '>
           <button className='clay'>{user.userName}</button>
         </div>
-        <div
-          className='colors__toggle'
-          style={{ backgroundColor: themeColor }}
-          onClick={() => toggleColors()}
-        ></div>
+
+        <Select
+          classNamePrefix='rs'
+          defaultValue={colourOptions[0]}
+          options={colourOptions}
+          styles={colourStyles}
+          onChange={setThemeColor}
+        />
       </div>
-      {showColors && (
-        <div className='theme__colors'>
-          {HUE_COLOR_ARRAY?.map(color => {
-            return (
-              <div
-                key={color}
-                className='colors clay'
-                style={{ backgroundColor: `hsl(${color}, 69%, 61%)` }}
-                onClick={e => handleThemeColor(e, color)}
-              ></div>
-            );
-          })}
-        </div>
-      )}
     </header>
   );
 };

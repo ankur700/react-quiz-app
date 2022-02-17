@@ -95,8 +95,8 @@ const Layout = () => {
   const fetchSingleQuestion = id => {
     fetch(`/api/questions/${id}`)
       .then(response => response.json())
-      .then(json => setQuestion({ ...json.question }));
-    console.log('loding single question');
+      .then(json => setQuestion({ ...json.question }))
+      .then(setIsLoading(!isLoading));
   };
 
   const getIdArray = array => {
@@ -182,6 +182,10 @@ const Layout = () => {
     setShowStart(!showStart);
   };
 
+  const handleClick = id => {
+    fetchSingleQuestion(id);
+  };
+
   return (
     <div className='App' data-theme={theme}>
       <Header theme={theme} switchTheme={switchTheme} user={user} />
@@ -248,14 +252,7 @@ const Layout = () => {
         <ReactCanvasConfetti refConfetti={getInstance} style={canvasStyles} />
       </Main>
       {showQuestion && (
-        <Sidebar
-          Questions={Questions}
-          questionCount={questionCount}
-          setShowScore={setShowScore}
-          questionState={questionState}
-          setShowQuestion={setShowQuestion}
-          fetchSingleQuestion={fetchSingleQuestion}
-        />
+        <Sidebar questionState={questionState} handleClick={handleClick} />
       )}
     </div>
   );

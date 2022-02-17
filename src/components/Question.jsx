@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import { FaQuestion } from 'react-icons/fa';
 
 const Question = ({
@@ -32,8 +32,6 @@ const Question = ({
     index + 1 === answer ? successAudio.play() : failAudio.play();
   };
 
-  const answerRef = useRef(null);
-
   const setQuestionStates = index => {
     questionState[questionIndex].attempted = true;
     questionState[questionIndex].isCorrect =
@@ -60,7 +58,6 @@ const Question = ({
     if (array.length === 0) {
       setIsAllAttempted(true);
     }
-    console.log(array);
   };
 
   const getScore = e => {
@@ -71,7 +68,7 @@ const Question = ({
     }
   };
 
-  const handleClick = (e, index) => {
+  const checkAnswer = (e, index) => {
     e.preventDefault();
     let target = e.currentTarget;
     resetOptions();
@@ -171,7 +168,7 @@ const Question = ({
                   key={answer}
                   id={index.toString()}
                   className='option clay'
-                  onClick={e => handleClick(e, index)}
+                  onClick={e => checkAnswer(e, index)}
                   dangerouslySetInnerHTML={{ __html: option }}
                 ></li>
               </>
@@ -188,7 +185,6 @@ const Question = ({
                 e.preventDefault();
                 setShowAnswer(!showAnswer);
               }}
-              ref={answerRef}
               disabled={
                 questionState[questionIndex ? questionIndex : 0].attempted
                   ? false

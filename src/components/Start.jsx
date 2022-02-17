@@ -21,10 +21,13 @@ const Start = ({
     { value: '25', label: '25' },
   ];
 
-  const [selectedValue, setSelectedValue] = useState(null);
+  const [selectedValue, setSelectedValue] = useState({
+    value: 'Select no of questions',
+    label: 'Select no of questions',
+  });
 
   useEffect(() => {
-    if (selectedValue == null) return;
+    if (selectedValue.value === 'Select no of questions') return;
     setQuestionCount(parseInt(selectedValue.value));
     setShow(true);
   }, [selectedValue]);

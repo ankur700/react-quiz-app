@@ -174,7 +174,9 @@ code {
 
 .App-header {
   grid-column: span 2;
-  position: relative;
+  position: sticky;
+  top: 0;
+  z-index: 99;
 }
 
 .App-link {
@@ -240,7 +242,7 @@ code {
 
 .title {
   font-size: var(--h1-font-size);
-  color: var(--first-color-lighter);
+  color: var(--clay-background);
   font-weight: 900;
   text-shadow: -0.0075em 0.0075em 0 var(--first-color-alt),
     0.005em 0.005em 0 var(--first-color-alt),
@@ -529,30 +531,9 @@ button {
   height: 50px;
 }
 
-select {
-  border: none;
-  background: transparent;
-  color: var(--title-color);
-  width: 90%;
-}
-
-select:focus-visible {
-  outline: none;
-  border: none;
-}
-
-select:focus {
-  outline: none;
-}
-
-select:focus > option {
-  background: var(--body-color);
-  opacity: 0.8;
-  padding: 5px 10px;
-}
-
-select > option {
-  border-radius: 8px 8px 0 0;
+.rs__menu,
+.rs__menu > * {
+  z-index: 9999 !important;
 }
 
 .question__title {
@@ -728,9 +709,6 @@ select > option {
     gap: 1.5rem;
   }
 
-  select {
-    font-size: var(--h3-font-size);
-  }
   .answer__detail {
     width: 70%;
     min-height: 15rem;

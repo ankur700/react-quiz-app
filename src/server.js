@@ -37,14 +37,10 @@ export function makeServer({
         return schema.questions.all();
       });
 
-      this.get(
-        '/questions/:id',
-        (schema, request) => {
-          let id = request.params.id;
-          return schema.questions.find(id);
-        },
-        { timing: 4000 }
-      );
+      this.get('/questions/:id', (schema, request) => {
+        let id = request.params.id;
+        return schema.questions.find(id);
+      });
     },
   });
 

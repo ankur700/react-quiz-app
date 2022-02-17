@@ -1,11 +1,6 @@
 import React from 'react';
 
-const Sidebar = ({ questionState, setShowQuestion, fetchSingleQuestion }) => {
-  const handleClick = id => {
-    setShowQuestion(true);
-    fetchSingleQuestion(id);
-  };
-
+const Sidebar = ({ questionState, handleClick }) => {
   return (
     <div className='sidebar__wrapper clay card'>
       {/* <div className='sidebar__header'></div> */}

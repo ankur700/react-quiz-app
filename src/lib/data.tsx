@@ -531,7 +531,7 @@ export const Data = [
   },
   {
     id: 39,
-    question: 'What’s the output?',
+    question: 'Everything in JavaScript is either a…',
     image: '',
     options: [
       'A: primitive or object',
@@ -698,4 +698,32 @@ export const Data = [
     explanation: `<p>When mapping over the array, the value of <code>num</code> is equal to the element it’s currently looping over. In this case, the elements are numbers, so the condition of the if statement <code>typeof num === "number"</code> returns <code>true</code>. The map function creates a new array and inserts the values returned from the function.</p>
     <p>However, we don’t return a value. When we don’t return a value from the function, the function returns <code>undefined</code>. For every element in the array, the function block gets called, so for each element we return <code>undefined</code>.</p>`,
   },
+];
+
+export const dot = (color = 'transparent') => ({
+  alignItems: 'center',
+  display: 'flex',
+
+  ':before': {
+    backgroundColor: color,
+    borderRadius: 10,
+    content: '" "',
+    display: 'block',
+    marginRight: 8,
+    height: 20,
+    width: 20,
+  },
+});
+
+export const colourOptions = [
+  {
+    value: 'blue',
+    label: 'Blue',
+    color: 'hsl(230, 69%, 61%)',
+    hue: '230',
+    isFixed: true,
+  },
+  { value: 'purple', label: 'Purple', color: 'hsl(250, 69%, 61%)', hue: '250' },
+  { value: 'pink', label: 'Pink', color: 'hsl(340, 69%, 61%)', hue: '340' },
+  { value: 'green', label: 'Green', color: 'hsl(142, 69%, 61%)', hue: '142' },
 ];
