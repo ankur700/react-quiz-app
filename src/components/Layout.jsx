@@ -14,18 +14,20 @@ const canvasStyles = {
   pointerEvents: 'none',
   width: '100%',
   height: '100%',
-  top: 0,
+  bottom: 0,
   left: 0,
 };
 
 const Layout = () => {
-  const defaultDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  const DEFAULT_DARK = window.matchMedia(
+    '(prefers-color-scheme: dark)'
+  ).matches;
   const [theme, setTheme] = useLocalStorage(
     'theme',
-    defaultDark ? 'dark' : 'light'
+    DEFAULT_DARK ? 'dark' : 'light'
   );
 
-  const defaultUserSate = {
+  const DEFAULT_USER_STATE = {
     userName: 'Demo User',
     bestScores: [],
   };
@@ -39,18 +41,15 @@ const Layout = () => {
   const [isCorrect, setIsCorrect] = useState(false);
   const [showStart, setShowStart] = useState(true);
   const [showQuestion, setShowQuestion] = useState(false);
-  const [user, setUser] = useLocalStorage('user', { ...defaultUserSate });
+  const [user, setUser] = useLocalStorage('user', { ...DEFAULT_USER_STATE });
   const [idArray, setIdArray] = useState([]);
   const [playAgain, setPlayAgain] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   //Switch the Theme
   const switchTheme = theme => {
-    const newTheme = theme === 'light' ? 'dark' : 'light';
-    setTheme(newTheme);
-  };
-  const setQuestionsArray = value => {
-    setQuestionCount(value);
+    const NEW_THEME = theme === 'light' ? 'dark' : 'light';
+    setTheme(NEW_THEME);
   };
 
   //Shuffle the provided array passed as parameter
@@ -101,15 +100,15 @@ const Layout = () => {
   };
 
   const getIdArray = array => {
-    let newArray = [];
-    let stateArray = [];
+    const NEW_ARRAY = [];
+    const STATE_ARRAY = [];
 
     array.forEach(item => {
-      newArray.push(item.id);
-      stateArray.push({ id: item.id, attempted: false, isCorrect: false });
+      NEW_ARRAY.push(item.id);
+      STATE_ARRAY.push({ id: item.id, attempted: false, isCorrect: false });
     });
-    setIdArray([...newArray]);
-    setQuestionState([...stateArray]);
+    setIdArray([...NEW_ARRAY]);
+    setQuestionState([...STATE_ARRAY]);
   };
 
   useEffect(() => {
@@ -121,7 +120,7 @@ const Layout = () => {
   useEffect(() => {
     if (playAgain) {
       setScore(0);
-      setShowQuestion(false);
+      setShowQuestion(!showQuestion);
     }
   }, [playAgain]);
 
@@ -179,8 +178,8 @@ const Layout = () => {
   const restart = () => {
     setPlayAgain(!playAgain);
     setShowScore(!showScore);
-    setShowStart(!showStart);
     setShowQuestion(!showQuestion);
+    setShowStart(!showStart);
   };
 
   return (
@@ -252,7 +251,6 @@ const Layout = () => {
         <Sidebar
           Questions={Questions}
           questionCount={questionCount}
-          setQuestionsArray={setQuestionsArray}
           setShowScore={setShowScore}
           questionState={questionState}
           setShowQuestion={setShowQuestion}

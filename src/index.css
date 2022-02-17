@@ -207,6 +207,8 @@ code {
   justify-content: space-evenly;
   align-items: center;
   margin-top: 0.85rem;
+  flex-wrap: wrap;
+  gap: 1.25rem;
 }
 
 .logo {
@@ -217,7 +219,7 @@ code {
 }
 
 .title {
-  font-size: var(--big-font-size);
+  font-size: var(--normal-font-size);
   color: var(--title-color);
   text-transform: uppercase;
 }
@@ -288,9 +290,7 @@ code {
   flex-direction: column;
   padding: 1rem;
   align-items: center;
-  justify-content: space-evenly;
   gap: 1rem;
-  /* position: absolute; */
 }
 
 .question__image {
@@ -494,26 +494,29 @@ select > option {
 }
 
 .question__title {
-  font-size: var(--h1-font-size);
+  font-size: var(--h3-font-size);
+  text-align: center;
+  margin-bottom: 1.5rem;
 }
 
 .options__list {
   padding: var(--padding-small) var(--padding-big);
   display: flex;
-  flex-wrap: wrap;
-  justify-content: space-evenly;
   gap: var(--padding-small);
   list-style: none;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 .option {
   padding-block: var(--padding-small);
   padding-inline: 1rem;
   border-radius: 10px;
-  inline-size: 20rem;
+  max-width: 100%;
   overflow-wrap: break-word;
   color: var(--title-color);
   margin: auto 0;
+  font-size: var(--h3-font-size);
 }
 
 .option:hover {
@@ -525,11 +528,13 @@ select > option {
 .hidden {
   display: none !important;
 }
-.options__list > .success {
+.options__list > .success,
+.sidebar__pagination-button.success {
   background-color: var(--green);
 }
 
-.options__list > .error {
+.options__list > .error,
+.sidebar__pagination-button.error {
   background-color: var(--red);
 }
 
@@ -543,11 +548,11 @@ select > option {
 }
 
 .answer__detail {
-  line-height: 2;
+  line-height: 1.8;
   word-spacing: 2px;
   padding: var(--padding-medium);
   position: absolute;
-  width: 100%;
+  width: 90%;
   color: var(--title-color);
   background-color: var(--body-color);
 }
@@ -641,16 +646,38 @@ select > option {
     min-height: 100vh;
   }
 
+  .title {
+    font-size: var(--big-font-size);
+  }
+
   select {
     font-size: var(--h3-font-size);
   }
   .answer__detail {
-    width: 50%;
+    width: 70%;
     min-height: 15rem;
+    position: absolute;
+    bottom: 15%;
   }
 
   .score-card h3 {
     font-size: var(--big-font-size);
+  }
+
+  .options__list {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .option {
+    max-inline-size: 22rem;
+    font-size: var(--normal-font-size);
+  }
+
+  .question__title {
+    font-size: var(--h1-font-size);
+    text-align: center;
+    margin-bottom: 3rem;
   }
 }
 @media screen and (max-width: 500px) {
