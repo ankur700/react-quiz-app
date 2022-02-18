@@ -82,13 +82,13 @@ const Header = ({ theme, switchTheme, user }) => {
             <div className='indicator clay'></div>
             {theme === 'dark' ? (
               <FiSun
-                stroke='#fff'
-                style={{ position: 'absolute', right: '7px', bottom: '8px' }}
+                stroke='var(--first-color-lighter)'
+                style={{ position: 'absolute', right: '6px', bottom: '7px' }}
               />
             ) : (
               <FiMoon
-                stroke='#222'
-                style={{ position: 'absolute', left: '7px', bottom: '8px' }}
+                stroke='var(--first-color-alt)'
+                style={{ position: 'absolute', left: '6px', bottom: '7px' }}
               />
             )}
           </div>
