@@ -706,12 +706,12 @@ export const dot = (color = 'transparent') => ({
 
   ':before': {
     backgroundColor: color,
-    borderRadius: 10,
+    borderRadius: 50,
     content: '" "',
     display: 'block',
     marginRight: 8,
-    height: 20,
-    width: 20,
+    height: 30,
+    width: 30,
   },
 });
 
@@ -723,7 +723,16 @@ export const colourOptions = [
     hue: '230',
     isFixed: true,
   },
+  {
+    value: 'gray',
+    label: 'Select theme color',
+    color: 'hsl(220,9%,46%)',
+    hue: '220',
+  },
   { value: 'purple', label: 'Purple', color: 'hsl(250, 69%, 61%)', hue: '250' },
-  { value: 'pink', label: 'Pink', color: 'hsl(340, 69%, 61%)', hue: '340' },
+  { value: 'pink', label: 'Pink', color: 'hsl(330, 69%, 61%)', hue: '330' },
   { value: 'green', label: 'Green', color: 'hsl(142, 69%, 61%)', hue: '142' },
+  { value: 'orange', label: 'Orange', color: 'hsl(21, 69%, 61%)', hue: '21' },
+  { value: 'teal', label: 'Teal', color: 'hsl(176, 69%, 61%)', hue: '176' },
+  { value: 'amber', label: 'Amber', color: 'hsl(38, 69%, 61%)', hue: '38' },
 ];

@@ -60,28 +60,25 @@ const Start = ({
       <div className='start__card'>
         <div className='user__info-form'>
           <form onSubmit={e => handleSubmit(e)} className='user__detail-form'>
-            <label
-              htmlFor='name'
-              className='user__name stroke shadow'
-              data-text='Your cool name !!'
-            >
-              Your cool name !!
+            <label htmlFor='name' className='user__name stroke-shadow'>
+              {name === 'Demo User' ? 'Enter your name' : 'User name'}
             </label>
             <input
               className='clay user__input'
               type='text'
               id='name'
               defaultValue={name}
+              autoFocus={true}
               onChange={e => handleChange(e)}
             />
-            <Select
-              className='clay'
-              classNamePrefix='select'
-              defaultValue={selectedValue}
-              onChange={setSelectedValue}
-              options={OPTIONS}
-            />
           </form>
+          <Select
+            className='question__select'
+            classNamePrefix='select'
+            defaultValue={selectedValue}
+            onChange={setSelectedValue}
+            options={OPTIONS}
+          />
         </div>
         {show && (
           <button

@@ -2,10 +2,10 @@ import React from 'react';
 
 const Sidebar = ({ questionState, handleClick }) => {
   return (
-    <div className='sidebar__wrapper clay card'>
+    <div className='sidebar__wrapper clay'>
       {/* <div className='sidebar__header'></div> */}
       {questionState.length > 0 && (
-        <div className='sidebar__content clay'>
+        <div className='sidebar__content'>
           {questionState.map((question, index) => {
             return (
               <button

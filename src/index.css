@@ -1,4 +1,4 @@
-@import 'claymorphism-css/dist/clay.css ';
+/* @import 'claymorphism-css/dist/clay.css '; */
 /*==================== GOOGLE FONTS ====================*/
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,700;1,800;1,900&display=swap');
 
@@ -71,9 +71,9 @@
   :root {
     --big-font-size: 3rem;
     --h1-font-size: 2.25rem;
-    --h2-font-size: 1.5rem;
+    --h2-font-size: 1.75rem;
     --h3-font-size: 1.25rem;
-    --normal-font-size: 1rem;
+    --normal-font-size: 1.125rem;
     --small-font-size: 0.875rem;
     --smaller-font-size: 0.813rem;
     --grid-template-column: 1fr minmax(0, max-content);
@@ -152,6 +152,15 @@ img {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+button {
+  font-size: calc(10px + 2vmin);
+  font-family: var(--body-font);
+}
+
+input {
+  font-family: 'Courier New', Courier, monospace;
 }
 
 .clay {
@@ -241,8 +250,16 @@ code {
 }
 
 .title {
-  font-size: var(--h1-font-size);
-  color: var(--clay-background);
+  font-size: var(--big-font-size);
+  text-transform: Uppercase;
+  color: var(--first-color-lighter);
+  font-weight: 900;
+}
+
+.fancy-title {
+  font-size: var(--big-font-size);
+  text-transform: Uppercase;
+  color: var(--first-color-lighter);
   font-weight: 900;
   text-shadow: -0.0075em 0.0075em 0 var(--first-color-alt),
     0.005em 0.005em 0 var(--first-color-alt),
@@ -277,7 +294,8 @@ code {
 .start__card {
   display: grid;
   grid-template-columns: 1fr max-content;
-  grid-template-rows: minmax(min-content, max-content) 200px;
+  grid-template-rows: minmax(min-content, max-content);
+  gap: 2rem;
   place-items: center;
 }
 
@@ -285,8 +303,8 @@ code {
   display: flex;
   gap: 2rem;
   justify-content: space-around;
-  align-items: flex-end;
   grid-column: span 2;
+  flex-direction: column;
 }
 
 .user__detail-form {
@@ -297,21 +315,51 @@ code {
 }
 
 .user__input {
-  width: 20rem;
-  height: 3.5rem;
+  max-width: 20rem;
+  width: max-content;
+  height: 4rem;
   border: none;
-  padding: 1.5rem;
+  padding: var(--padding-small) var(--padding-medium);
   color: var(--title-color);
   font-size: var(--h3-font-size);
   background: var(--clay-background);
+  border-radius: 10px;
+  font-weight: bold;
 }
 .user__input:focus {
   outline: none;
 }
 
-.user__name {
-  color: var(--first-color-lighter);
-  font-size: var(--h1-font-size);
+.user__avatar {
+  background-color: var(--first-color) !important;
+  background-image: linear-gradient(
+    135deg,
+    var(--first-color-lighter) 0%,
+    var(--first-color-alt) 100%
+  ) !important;
+  cursor: pointer;
+  font-family: var(--body-font) !important;
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+
+.question__select > .select__control,
+.rs__control {
+  backdrop-filter: blur(15px);
+  background: var(--clay-background);
+  box-shadow: var(--clay-boxShadow);
+  height: 4rem;
+  border-radius: 10px;
+}
+
+.rs__control {
+  height: 3rem;
+  width: max-content;
+}
+
+.select__single-value,
+.rs__single-value {
+  color: var(--title-color) !important;
 }
 
 .single__question-wrapper,
@@ -346,34 +394,13 @@ code {
 
 .pagination__button,
 .start__btn,
-.play__again,
-.user button {
+.play__again {
   border-radius: 10px;
   padding: var(--padding-small) var(--padding-medium);
   color: var(--title-color);
   border: none;
   cursor: pointer;
-  font-size: var(--normal-font-size);
   font-weight: var(--font-semi-bold);
-}
-
-.user button {
-  color: var(--first-color);
-  padding: var(--padding-small);
-  border: solid 3px transparent;
-  background-image: linear-gradient(
-      rgba(255, 255, 255, 0),
-      rgba(255, 255, 255, 0)
-    ),
-    linear-gradient(101deg, var(--first-color-lighter), var(--first-color-alt));
-  background-origin: border-box;
-  background-clip: content-box, border-box;
-  box-shadow: 2px 1000px 1px var(--clay-background) inset;
-}
-
-.user button:hover {
-  box-shadow: none;
-  color: white;
 }
 
 .colors__toggle {
@@ -454,9 +481,9 @@ use {
   padding: 1rem 2rem;
   justify-content: center;
   align-items: center;
-  min-height: 20rem;
+  min-height: 10rem;
   position: sticky;
-  top: 2rem;
+  top: 20.5%;
 }
 
 .sidebar__header {
@@ -485,19 +512,12 @@ use {
   fill: var(--first-color-lighter);
 }
 
-.sidebar__icon > svg {
-  stroke: var(--first-color-second);
-  font-size: 1.5rem;
-}
-
 .sidebar__content {
-  max-width: 430px;
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
   justify-content: center;
   align-items: center;
-  padding: 2rem 2.5rem;
 }
 
 .sidebar__pagination-button {
@@ -516,10 +536,6 @@ use {
 
 .sidebar__pagination-button:focus {
   outline: none;
-}
-
-button {
-  font-size: calc(10px + 2vmin);
 }
 
 .holder {
@@ -682,6 +698,13 @@ button {
   font-size: var(--h2-font-size);
 }
 
+.user__name {
+  font-size: var(--h2-font-size);
+  color: var(--first-color-lighter);
+  font-weight: 900;
+  letter-spacing: 6px;
+}
+
 @media screen and (min-width: 968px) {
   .App {
     column-gap: 2.5rem;
@@ -690,6 +713,13 @@ button {
   }
 
   .title {
+    font-size: var(--big-font-size);
+    text-transform: Uppercase;
+    color: var(--first-color-lighter);
+    font-weight: 900;
+  }
+
+  .fancy-title {
     font-size: var(--big-font-size);
     text-transform: Uppercase;
     color: var(--first-color-lighter);
@@ -705,8 +735,23 @@ button {
   }
 
   .user__detail-form {
-    flex-direction: row;
     gap: 1.5rem;
+  }
+
+  .user__info-form {
+    display: flex;
+    gap: 2rem;
+    justify-content: space-around;
+    grid-column: span 2;
+    flex-direction: row;
+    align-items: flex-end;
+  }
+
+  .user__name {
+    font-size: var(--h2-font-size);
+    color: var(--first-color-lighter);
+    font-weight: 900;
+    letter-spacing: 6px;
   }
 
   .answer__detail {
